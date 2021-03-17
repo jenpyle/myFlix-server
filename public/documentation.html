@@ -5,18 +5,267 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" type="image/png" href="/img/flix-favicon.png" />
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Bungee+Outline&family=Londrina+Outline&display=swap"
+        rel="stylesheet">
+    <link rel="normalize" type="text/css" href="/css/normalize.css" />
+    <!-- <link rel="stylesheet" type="text/css" href="/css/style.production.css" /> -->
+    <link rel="stylesheet" type="text/css" href="/css/styles.css" />
     <title>myFlix</title>
 </head>
 
 <body>
-    <h1>myFlix</h1>
-    <h3>Documentation page</h3>
-    <p>
-        This is the server-side component of a “movies” web application. This web
-        application will provide users with access to information about different
-        movies, directors, and genres. Users will be able to sign up, update their
-        personal information, and create a list of their favorite movies
-    </p>
+    <div class="page-header">
+        <h1>Documentation page</h1>
+        <h4>myFlix: a REST API with node.js</h4>
+    </div>
+    <div class="container">
+        <div class="description">
+            <p>
+                This is the server-side component of a “movies” web application. This web
+                application will provide users with access to information about different
+                movies, directors, and genres. Users will be able to sign up, update their
+                personal information, and create a list of their favorite movies
+            </p>
+        </div>
+        <div class="documentation-tables">
+            <table>
+                <tr>
+                    <th>Description</th>
+                    <th>URL Endpoint</th>
+                    <th>HTTP Method</th>
+                    <th>Request Body Format</th>
+                    <th>Response Body Format</th>
+                </tr>
+                <tr>
+                    <td>This endpoint will return a list of all the movies in the database</td>
+                    <td>/movies</td>
+                    <td>GET</td>
+                    <td>None</td>
+                    <td>A JSON object with data about all the movies. Example of JSON structure for one movie:
+                        <pre>
+                      {
+                        "Genre": {
+                          "Name": "Fantasy",
+                          "Description": "A genre of speculative fiction set in a fictional universe, often 
+                          inspired by real world myth and folklore. Its roots are in oral traditions, which 
+                          then became fantasy literature and drama."
+                        },
+                          "Director": {
+                              "Name": "Chris Columbus",
+                              "Bio": "Born in Pennsylvania and raised in Ohio, Chris Columbus was first inspired 
+                              to make movies after seeing 'The Godfather' at age 15.",
+                              "Birth": "1958"
+                          },
+                        "Actors": [],
+                        "_id": "603851fd7778532c1f4fa159",
+                        "Title": "Harry Potter and the Chamber of Secrets",
+                        "Description": "An ancient prophecy seems to be coming true when a mysterious presence 
+                        begins stalking the corridors of a school of magic and leaving its victims paralyzed",
+                        "ImagePath": "hpchamberofsecrets.png",
+                        "Featured": false
+                      }
+                    </pre>
+                    </td>
+                </tr>
+                <tr>
+                    <td>This endpoint will get information (description, genre, director, and image URL) about a single
+                        movie title</td>
+                    <td>/movies/:Title</td>
+                    <td>GET</td>
+                    <td>None</td>
+                    <td>JSON object with data about a specific movie with info about title, genre, and director. Example
+                        JSON structure:
+                        <pre>
+                      {
+                        "Genre": {
+                          "Name": "Fantasy",
+                          "Description": "A genre of speculative fiction set in a fictional universe, often 
+                          inspired by real world myth and folklore. Its roots are in oral traditions, which 
+                          then became fantasy literature and drama."
+                        },
+                          "Director": {
+                              "Name": "Chris Columbus",
+                              "Bio": "Born in Pennsylvania and raised in Ohio, Chris Columbus was first inspired 
+                              to make movies after seeing 'The Godfather' at age 15.",
+                              "Birth": "1958"
+                          },
+                        "Actors": [],
+                        "_id": "603851fd7778532c1f4fa159",
+                        "Title": "Harry Potter and the Chamber of Secrets",
+                        "Description": "An ancient prophecy seems to be coming true when a mysterious presence 
+                        begins stalking the corridors of a school of magic and leaving its victims paralyzed",
+                        "ImagePath": "hpchamberofsecrets.png",
+                        "Featured": false
+                      }
+                    </pre>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Return data about the genre of a single movie by title</td>
+                    <td>/movies/:Title/genres</td>
+                    <td>GET</td>
+                    <td>None</td>
+                    <td>A JSON object with data about the genre of a movie, and description of genre. Example of JSON
+                        structure:
+                        <pre>
+                      {
+                        "Name": "Fantasy",
+                        "Description": "A genre of speculative fiction set in a fictional universe, often 
+                        inspired by real world myth and folklore. Its roots are in oral traditions, which 
+                        then became fantasy literature and drama."
+                      }
+                    </pre>
+                    </td>
+                </tr>
+                <tr>
+                    <td>This will return data about a movie director by name</td>
+                    <td>/directors/:Name</td>
+                    <td>GET</td>
+                    <td>None</td>
+                    <td>JSON object with data about director containing bio and birth year. Example JSON structure:
+                        <pre>
+                      {
+                        "Name": "Chris Columbus",
+                        "Bio": "Born in Pennsylvania and raised in Ohio, Chris Columbus was first inspired to make movies 
+                        after seeing 'The Godfather' at age 15.",
+                        "Birth": "1958"
+                      }
+                    </pre>
+                    </td>
+                </tr>
+                <tr>
+                    <td>This allows new users to register</td>
+                    <td>/users</td>
+                    <td>POST</td>
+                    <td>JSON object with data of a new user containing username, password and email. Example of JSON
+                        structure:
+                        <pre>
+                      {
+                        "Username" : "testuser123",
+                        "Password" : "password123",
+                        "Email" : "testing@gmail.com",
+                        "Birthday" : "09-10-20"
+                      }
+                    </pre>
+                    </td>
+                    <td>JSON object with data about user that was addded. Example JSON structure:
+                        <pre>
+                      {
+                        "FavoriteMovies": [],
+                        "_id": "603fe08ee4da91f97138e0fc",
+                        "Username": "testuser123",
+                        "Password": "password123",
+                        "Email": "testing@gmail.com",
+                        "Birthday": "2020-09-10T07:00:00.000Z",
+                        "__v": 0
+                      }
+                    </pre>
+                    </td>
+                </tr>
+                <tr>
+                    <td>This will return data about one users profile</td>
+                    <td>/users/:Username</td>
+                    <td>GET</td>
+                    <td>None</td>
+                    <td>JSON object with data about user containing username, password, email and birthdate. Example
+                        JSON structure:
+                        <pre>
+                      {
+                        "FavoriteMovies": [],
+                        "_id": "603fe08ee4da91f97138e0fc",
+                        "Username": "testuser123",
+                        "Password": "password123",
+                        "Email": "testing@gmail.com",
+                        "Birthday": "2020-09-10T07:00:00.000Z",
+                        "__v": 0
+                      }
+                    </pre>
+                    </td>
+                </tr>
+                <tr>
+                    <td>This allows users to update their info/username</td>
+                    <td>/users/:Username</td>
+                    <td>PUT</td>
+                    <td>JSON object with updated info. Example JSON structure:
+                        <pre>
+                      {
+                        "Username" : "testuser123",
+                        "Password" : "passwordsupdated",
+                        "Email" : "testingnewemail@gmail.com",
+                        "Birthday" : "09-10-20"
+                      }
+                    </pre>
+                    </td>
+                    <td>JSON object with updated info. JSON structure example:
+                        <pre>
+                      {
+                        "FavoriteMovies": [],
+                        "_id": "603ec85e115174eb2b83b233",
+                        "Username": "testuser123",
+                        "Password": "passwordsupdated",
+                        "Email": "testingnewemail@gmail.com",
+                        "Birthday": "2020-09-10T07:00:00.000Z",
+                        "__v": 0
+                      }
+                    </pre>
+                    </td>
+                </tr>
+                <tr>
+                    <td>This allows users to add a movie to their favorites list</td>
+                    <td>/users/:Username/movies/:MovieID</td>
+                    <td>POST</td>
+                    <td>None</td>
+                    <td>A text stating that the movie has been added to their favorites list. Example JSON structure:
+                        <pre>
+                      {
+                        "FavoriteMovies": [
+                            "603851fd7778532c1f4fa159"
+                        ],
+                        "_id": "603ec85e115174eb2b83b233",
+                        "Username": "testuser123",
+                        "Password": "passwordsupdated",
+                        "Email": "testingnewemail@gmail.com",
+                        "Birthday": "2020-09-10T07:00:00.000Z",
+                        "__v": 0
+                      }
+                    </pre>
+                    </td>
+                </tr>
+                <tr>
+                    <td>This allows users to remove movies from favorites</td>
+                    <td>/users/:Username/movies/:MovieID</td>
+                    <td>DELETE</td>
+                    <td>None</td>
+                    <td>A text stating that the movie has been removed. JSON structure example:
+                        <pre>
+                      {
+                        "FavoriteMovies": [],
+                        "_id": "603ec85e115174eb2b83b233",
+                        "Username": "testuser123",
+                        "Password": "passwordsupdated",
+                        "Email": "testingnewemail@gmail.com",
+                        "Birthday": "2020-09-10T07:00:00.000Z",
+                        "__v": 0
+                      }
+                    </pre>
+                    </td>
+                </tr>
+                <tr>
+                    <td>This allows users to deactivate their account</td>
+                    <td>/users/:Username</td>
+                    <td>DELETE</td>
+                    <td>None</td>
+                    <td>A text stating the the user email/account has been removed and deactivated. Returns:
+                        <pre>
+                      testuser123 was deleted.
+                    </pre>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
 </body>
 
 </html>
