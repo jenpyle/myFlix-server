@@ -1,0 +1,72 @@
+:root {
+  --primary-background-color: LavenderBlush;
+  --primary-background-color-darker: #ffdce7;
+  --secondary-background-color: bisque;
+  --list-seperation-color: papayawhip;
+  --red-color: #fc999b;
+  --primary-accent-color: Rosybrown;
+  --selected-link-color: #489c79;
+  --visited-color: #05676e;
+  --font-weight: bold;
+}
+
+*,
+*:after,
+*::before {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Ubuntu', sans-serif;
+  font-weight: 400;
+  background-color: var(--primary-background-color-darker);
+  line-height: normal;
+  text-align: center;
+}
+
+h1 {
+  font-family: 'Bungee Outline', cursive;
+  font-family: 'Londrina Outline', cursive;
+  font-weight: var(--font-weight);
+  line-height: normal;
+  font-size: 50px;
+}
+
+.page-header {
+  padding: 20px;
+  margin: 10px;
+  border-bottom: 1px solid rosybrown;
+}
+
+.container {
+}
+
+.description {
+  padding: 20px;
+}
+
+.documentation-tables {
+  background-color: white;
+}
+
+th {
+  color: lightslategray;
+  font-size: 20px;
+}
+
+table,
+th,
+td {
+  border: 1px solid white;
+}
+
+table tr:nth-child(even) {
+  background: var(--list-seperation-color);
+  height: auto;
+}
+table tr:nth-child(odd) {
+  background: var(--secondary-background-color);
+  height: auto;
+}
