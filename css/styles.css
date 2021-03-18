@@ -16,6 +16,7 @@
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+  font-size: small;
 }
 
 body {
@@ -60,13 +61,27 @@ table,
 th,
 td {
   border: 1px solid white;
+  text-align: left;
 }
 
 table tr:nth-child(even) {
   background: var(--list-seperation-color);
-  height: auto;
 }
 table tr:nth-child(odd) {
   background: var(--secondary-background-color);
-  height: auto;
+}
+
+td {
+  max-width: 400px;
+}
+
+tr,
+pre {
+  max-height: 300px;
+}
+
+pre {
+  margin-left: 20px;
+  overflow: scroll;
+  text-align: left;
 }
