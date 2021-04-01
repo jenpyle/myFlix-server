@@ -46,13 +46,10 @@ app.get('/', (req, res) => {
 });
 
 //Return a list of ALL movies to the user
-// app.get('/movies', (req, res) => {
-//   res.json(movies);
-// });
 app.get('/movies', (req, res) => {
   Movies.find()
     .then((movies) => {
-      res.status(201).json(movies);
+      res.json(movies.Title); //Why doesn't this work?
     })
     .catch((err) => {
       console.error(err);
@@ -64,7 +61,7 @@ app.get('/movies', (req, res) => {
 app.get('/users', (req, res) => {
   Users.find()
     .then((users) => {
-      res.status(201).json(users);
+      res.json(users);
     })
     .catch((err) => {
       console.error(err);
@@ -74,17 +71,17 @@ app.get('/users', (req, res) => {
 
 //Return data about a single movie by title to the user
 app.get('/movies/:Title', (req, res) => {
-  res.json(
-    movies.find((movie) => {
-      return movie.Title === req.params.Title;
+  Movies.findOne({ Title: req.params.Title })
+    .then((movie) => {
+      res.status(201).json(movie.Description);
     })
-  );
+    .catch((err) => {
+      console.error(err);
+      res.status(500).send('Error: ' + err);
+    });
 });
 
 //Return data about a genre (description) by name/title (e.g., “Thriller”)
-// app.get('/movies/:Genre/:Title', (req, res) => {
-//   res.send('Successful GET request returning data on the movie Genre');
-// });
 app.get('/genre/:Name', (req, res) => {
   Genres.findOne({ Name: req.params.Name })
     .then((genre) => {
@@ -102,9 +99,6 @@ app.get('/movies/:Director', (req, res) => {
 });
 
 // Allow new users to register
-// app.post('/users', (req, res) => {
-//   res.send('Successful POST request adding a new user');
-// });
 /* We’ll expect JSON in this format
 {
   ID: Integer,
@@ -125,8 +119,7 @@ app.post('/users', (req, res) => {
           Password: req.body.Password,
           Email: req.body.Email,
           Birthday: req.body.Birthday,
-        })
-          // send a response back to the client that contains both a status code and the document (called “user”) you just created
+        }) // send a response back to the client that contains both a status code and the document (called “user”) you just created
           .then((user) => {
             res.status(201).json(user);
           }) // a callback takes the document you just added as a parameter. Here, this new document is given the name “user” but you could name it anything you want
