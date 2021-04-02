@@ -40,12 +40,12 @@
                 </tr>
                 <tr>
                     <td>This endpoint will return a list of all the movies in the database</td>
-                    <td>/movies<div>
-                            http://localhost:8080/movies</div>
+                    <td>/movies<div><br />
+                            "http://localhost:8080/movies"</div>
                     </td>
                     <td>GET</td>
                     <td>None</td>
-                    <td>A JSON object with data about all the movies. Example of JSON structure for one movie:
+                    <td>A JSON object with data about all the movies. </br></br>Example response:
                         <pre>
 {
     "Title": "Hidden Figures",
@@ -166,36 +166,22 @@
                     <td>This endpoint will get information (description, genre, director, actors, poster URL, etc.)
                         about a single
                         movie title</td>
-                    <td>/movies/:Title<div>
-                            http://localhost:8080/movies/RBG</div>
+                    <td>/movies/:Title<div></br>
+                            "http://localhost:8080/movies/Miss%20Congeniality"</div>
                     </td>
                     <td>GET</td>
                     <td>None</td>
-                    <td>JSON object with data about a specific movie. Example
-                        JSON structure:
-                        <pre>
-{
-"Title": "RBG",
-"Year": "2018",
-"Rated": "PG",
-"Released": "26 Jul 2018",
-"Runtime": "98 min",
-"Genre": "Documentary, Biography",
-"Director": "Julie Cohen, Betsy West",
-"Writer": "N/A",
-"Actors": "Ruth Bader Ginsburg, Ann Kittner, Harryette Helsel, Stephen Wiesenfeld",
-"Plot": "The exceptional life and career of U.S. Supreme Court Justice Ruth Bader Ginsburg, who has developed a breathtaking legal legacy while becoming an unexpected pop culture icon.",
-"Language": "English, Italian, German, French",
-"Country": "USA",
-"Awards": "Nominated for 2 Oscars. Another 13 wins & 49 nominations.",
-"Poster": "https://m.media-amazon.com/images/M/MV5BNTE4Nzc0NDU3Nl5BMl5BanBnXkFtZTgwODIzMTQzNTM@._V1_SX300.jpg"
-}                            
+                    <td>Description of the specified movie title.</br></br>Example response:
+                        <pre></br>
+"An F.B.I. Agent must go undercover in the 
+Miss United States beauty pageant to prevent 
+a group from bombing the event."                        
                     </pre>
                     </td>
                 </tr>
                 <tr>
                     <td>Return data about the genre of a single movie by title</td>
-                    <td>/movies/:Genre/:Title<div>http://localhost:8080/movies/Comedy/Bridesmaids</div>
+                    <td>/movies/:Genre/:Title<div><br />"http://localhost:8080/movies/Comedy/Bridesmaids"</div>
                     </td>
                     <td>GET</td>
                     <td>None</td>
@@ -214,27 +200,89 @@
                 </tr>
                 <tr>
                     <td>This allows new users to register</td>
-                    <td>/users<div>http://localhost:8080/users</div>
+                    <td>/users<div></br>"http://localhost:8080/users"</div>
                     </td>
                     <td>POST</td>
                     <td>
-                        TBD
+                        A JSON object with new user data. </br>Example of request body:
+                        <pre>
+
+{
+  Username: "LeslieKnope",
+  Password: "jellybeans123",
+  Email: "jennyP@gmail.com",
+  Birthday: "10/31/1996"
+}
+                        </pre>
                     </td>
                     <td>
-                        Successful POST request adding a new user
+                        A JSON object with data about the new user in this format:
+                        <pre>
+
+{
+  ID: Integer,
+  Username: String,
+  Password: String,
+  Email: String,
+  Birthday: Date
+}
+                      
+Example response:
+                        
+{
+    "FavoriteMovies": [],
+    "_id": "60664a6dbe02655f8423ab56",
+    "Username": "LeslieKnope",
+    "Password": "jellybeans123",
+    "Email": "jennyP@gmail.com",
+    "Birthday": "1996-10-31T07:00:00.000Z",
+    "__v": 0
+}
+
+                        </pre>
                     </td>
                 </tr>
 
                 <tr>
                     <td>This allows users to update their info/username</td>
-                    <td>/users/info<div>http://localhost:8080/users/info</div>
+                    <td>/users/:Username<div></br>"http://localhost:8080/users/LeslieKnope"</div>
                     </td>
                     <td>PUT</td>
                     <td>
-                        TBD
+                        A JSON object with updated user data. </br>Example of request body:
+                        <pre>
+
+{
+  "Username": "LeslieKnope1",
+  "Password": "newPassword789",
+  "Email": "LeslieKnope@gmail.com",
+  "Birthday": "10/31/1996"
+}
+                        </pre>
                     </td>
                     <td>
-                        Successful PUT request updating info on a specific user
+                        A JSON object with data about the updated user in this format:
+                        <pre>
+
+{
+  Username: String,(required)
+  Password: String,(required)
+  Email: String,(required)
+  Birthday: Date
+}
+
+Example response:
+
+{
+    "FavoriteMovies": [],
+    "_id": "60664a6dbe02655f8423ab56",
+    "Username": "LeslieKnope1",
+    "Password": "newPassword789",
+    "Email": "LeslieKnope@gmail.com",
+    "Birthday": "1996-10-31T07:00:00.000Z",
+    "__v": 0
+}
+                        </pre>
                     </td>
                 </tr>
                 <tr>
@@ -259,16 +307,21 @@
                 </tr>
                 <tr>
                     <td>This allows users to deactivate their account</td>
-                    <td>/users<div>http://localhost:8080/users</div>
+                    <td>/users<div></br>"http://localhost:8080/users/LeslieKnope"</div>
                     </td>
                     <td>DELETE</td>
                     <td>None</td>
-                    <td>Successful DELETE request deleting existing user
+                    <td>
+                        Example response:</br></br>
+                        <pre>
+LeslieKnope was deleted.
+                    </pre>
                     </td>
                 </tr>
             </table>
         </div>
     </div>
 </body>
+<!-- ./mongoexport -d myFlixDB -c users -o users.json -->
 
-</html>./mongoexport -d myFlixDB -c users -o users.json
+</html>
