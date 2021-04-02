@@ -46,7 +46,7 @@
                     <td>GET</td>
                     <td>None</td>
                     <td>A JSON object with data about all the movies. </br></br>Example response:
-                        <pre>
+                        <pre></br>
 {
     "Title": "Hidden Figures",
     "Year": "2016",
@@ -163,11 +163,8 @@
                     </td>
                 </tr>
                 <tr>
-                    <td>This endpoint will get information (description, genre, director, actors, poster URL, etc.)
-                        about a single
-                        movie title</td>
-                    <td>/movies/:Title<div></br>
-                            "http://localhost:8080/movies/Miss%20Congeniality"</div>
+                    <td>This endpoint will get the description about a single movie title</td>
+                    <td>/movies/:Title<div></br>"http://localhost:8080/movies/Miss%20Congeniality"</div>
                     </td>
                     <td>GET</td>
                     <td>None</td>
@@ -181,21 +178,33 @@ a group from bombing the event."
                 </tr>
                 <tr>
                     <td>Return data about the genre of a single movie by title</td>
-                    <td>/movies/:Genre/:Title<div><br />"http://localhost:8080/movies/Comedy/Bridesmaids"</div>
+                    <td>/movies/genres/:Name<div><br />"http://localhost:8080/movies/genres/Comedy"</div>
                     </td>
                     <td>GET</td>
                     <td>None</td>
-                    <td>
-                        Successful GET request returning data on the movie Genre
+                    <td>Description of the specified genre.</br></br>Example response:
+                        <pre></br>
+"Comedy is a genre of film in which the main emphasis is on
+ humor. These films are designed to make the audience laugh 
+ through amusement and most often work by exaggerating 
+ characteristics for humorous effect."                       
+                    </pre>
                     </td>
                 </tr>
                 <tr>
                     <td>This will return data about a movie director by name</td>
-                    <td>/movies/:Director<div>http://localhost:8080/movies/Julie\ Cohen</div>
+                    <td>/movies/directors/:Name<div></br>"http://localhost:8080/movies/directors/Julie%20Cohen"</div>
                     </td>
                     <td>GET</td>
                     <td>None</td>
-                    <td>Successful GET request returning data on the Director
+                    <td>A JSON object with Name, Bio, and Birthday of the specified director.</br></br>Example response:
+                        <pre></br>
+{
+    "Name": "Julie Cohen",
+    "Bio": "a producer and director, known for RBG (2018)",
+    "Birth": "1972"
+}                        
+                    </pre>
                     </td>
                 </tr>
                 <tr>
@@ -286,13 +295,27 @@ Example response:
                     </td>
                 </tr>
                 <tr>
-                    <td>This allows users to add a movie to their favorites list</td>
-                    <td>/users/movies/favorites/:Title<div>http://localhost:8080/users/movies/favorites/RBG</div>
+                    <td>This allows users to add a movie to their FavoriteMovies list</td>
+                    <td>/users/:Username/movies/:MovieID<div>
+                            </br>"http://localhost:8080/users/LeslieKnope1/Movies/605cf6e67759ae52096e6f03"</div>
                     </td>
                     <td>POST</td>
                     <td>None</td>
-                    <td>
-                        Successful POST request adding a specific movie to a favorites list of a specific user
+                    <td>A JSON object of the user's data, including the updated FavoriteMovies list.</br></br>Example
+                        response:
+                        <pre></br>
+{
+    "FavoriteMovies": [
+        "605cf6e67759ae52096e6f03"
+    ],
+    "_id": "60664a6dbe02655f8423ab56",
+    "Username": "LeslieKnope1",
+    "Password": "newPassword789",
+    "Email": "LeslieKnope@gmail.com",
+    "Birthday": "1996-10-31T07:00:00.000Z",
+    "__v": 0
+}
+                    </pre>
                     </td>
                 </tr>
                 <tr>

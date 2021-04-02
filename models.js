@@ -5,6 +5,7 @@ let movieSchema = mongoose.Schema({
   Title: { type: String, required: true },
   Description: { type: String, required: true },
   Genre: {
+    //Genre becomes "genres"
     Name: String,
     Description: String,
   },
@@ -29,7 +30,7 @@ let userSchema = mongoose.Schema({
 });
 
 //This will create collections called “db.movies” and “db.users” within the MongoDB database you created in the previous Exercise
-let Movie = mongoose.model('Movie', movieSchema);
+let Movie = mongoose.model('Movie', movieSchema); //Moive becomes "movies". Any titles you pass through will come out on the other side as lowercase and pluralized
 let User = mongoose.model('User', userSchema);
 
 //This will let you then import these models into your “index.js” file

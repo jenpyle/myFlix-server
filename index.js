@@ -84,10 +84,10 @@ app.get('/movies/:Title', (req, res) => {
 });
 
 //Return data about a genre (description) by name/title (e.g., “Thriller”)
-app.get('movies/genres/:Name', (req, res) => {
-  Movies.findOne({ Name: req.params.Name })
-    .then((genre) => {
-      res.json(genre.Genre.Description);
+app.get('/movies/genres/:Name', (req, res) => {
+  Movies.findOne({ 'Genre.Name': req.params.Name })
+    .then((movie) => {
+      res.json(movie.Genre.Description);
     })
     .catch((err) => {
       console.error(err);
@@ -96,8 +96,15 @@ app.get('movies/genres/:Name', (req, res) => {
 });
 
 // Return data about a director (bio, birth year, death year) by name
-app.get('/movies/:Director', (req, res) => {
-  res.send('Successful GET request returning data on the Director');
+app.get('/movies/directors/:Name', (req, res) => {
+  Movies.findOne({ 'Director.Name': req.params.Name })
+    .then((movie) => {
+      res.json(movie.Director);
+    })
+    .catch((err) => {
+      console.error(err);
+      res.status(500).send('Error: ' + err);
+    });
 });
 
 // Allow new users to register
@@ -157,7 +164,7 @@ app.put('/users/:Username', (req, res) => {
 });
 
 //Allow users to add a movie to their list of favorites
-app.post('/users/:Username/Movies/:MovieID', (req, res) => {
+app.post('/users/:Username/movies/:MovieID', (req, res) => {
   Users.findOneAndUpdate(
     { Username: req.params.Username },
     {
@@ -176,8 +183,27 @@ app.post('/users/:Username/Movies/:MovieID', (req, res) => {
 });
 
 //Allow users to remove a movie from their list of favorites
-app.delete('/users/movies/favorites/:Title', (req, res) => {
-  res.send('Successful DELETE request deleting specified title from existing user');
+app.delete('/users/:Username/favoritemovies/:MovieID', (req, res) => {
+  console.log('-----------------------HERE ' + req.params.MovieID);
+  Users.findOneAndRemove(
+    { Username: req.params.Username },
+    {
+      $pull: { FavoriteMovies: req.params.MovieID },
+    },
+    { new: true }
+  )
+    .then((movie) => {
+      if (!movie) {
+        //check whether a document with the searched-for movie even exists
+        res.status(400).send(req.params.MovieID + ' was not found');
+      } else {
+        res.status(200).send(req.params.MovieID + ' was deleted.');
+      }
+    })
+    .catch((err) => {
+      console.error(err);
+      res.status(500).send('Error: ' + err);
+    });
 });
 
 //Allow existing users to deregister
