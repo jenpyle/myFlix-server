@@ -7,6 +7,8 @@ const express = require('express'),
 //Models.Movie, etc, refer to the model names defined in models.js
 const Movies = Models.Movie; //can query the Movie model in model.js
 const Users = Models.User;
+// const Genres = Models.Genre;
+// const Directors = Models.Director;
 //Allows mongoose to connect to the database and perform CRUD operations on documents it contains with my REST API
 mongoose.connect('mongodb://localhost:27017/myFlixDB', { useNewUrlParser: true, useUnifiedTopology: true });
 
@@ -49,7 +51,7 @@ app.get('/', (req, res) => {
 app.get('/movies', (req, res) => {
   Movies.find()
     .then((movies) => {
-      res.json(movies.Title); //Why doesn't this work?
+      res.json(movies); //Why doesn't this work?
     })
     .catch((err) => {
       console.error(err);
@@ -82,10 +84,10 @@ app.get('/movies/:Title', (req, res) => {
 });
 
 //Return data about a genre (description) by name/title (e.g., “Thriller”)
-app.get('/genre/:Name', (req, res) => {
-  Genres.findOne({ Name: req.params.Name })
+app.get('movies/genres/:Name', (req, res) => {
+  Movies.findOne({ Name: req.params.Name })
     .then((genre) => {
-      res.json(genre.Description);
+      res.json(genre.Genre.Description);
     })
     .catch((err) => {
       console.error(err);
@@ -99,19 +101,11 @@ app.get('/movies/:Director', (req, res) => {
 });
 
 // Allow new users to register
-/* We’ll expect JSON in this format
-{
-  ID: Integer,
-  Username: String,
-  Password: String,
-  Email: String,
-  Birthday: Date
-}*/
 app.post('/users', (req, res) => {
   Users.findOne({ Username: req.body.Username })
     .then((user) => {
       if (user) {
-        return res.status(400).send(req.body.Username + 'already exists');
+        return res.status(400).send(req.body.Username + ' already exists');
       } else {
         Users.create({
           //Mongoose command used on the User model to execute the database operation on MongoDB automatically. To insert a record into your “Users” collection
@@ -137,16 +131,6 @@ app.post('/users', (req, res) => {
 });
 
 //Allow users to update their user info (username)
-/* We’ll expect JSON in this format
-{
-  Username: String,
-  (required)
-  Password: String,
-  (required)
-  Email: String,
-  (required)
-  Birthday: Date
-}*/
 app.put('/users/:Username', (req, res) => {
   Users.findOneAndUpdate(
     { Username: req.params.Username },
@@ -173,9 +157,6 @@ app.put('/users/:Username', (req, res) => {
 });
 
 //Allow users to add a movie to their list of favorites
-// app.post('/users/movies/favorites/:Title', (req, res) => {
-//   res.send('Successful POST request adding a specific movie to a favorites list of a specific user');
-// });
 app.post('/users/:Username/Movies/:MovieID', (req, res) => {
   Users.findOneAndUpdate(
     { Username: req.params.Username },
@@ -200,9 +181,6 @@ app.delete('/users/movies/favorites/:Title', (req, res) => {
 });
 
 //Allow existing users to deregister
-// app.delete('/users', (req, res) => {
-//   res.send('Successful DELETE request deleting existing user');
-// });
 app.delete('/users/:Username', (req, res) => {
   Users.findOneAndRemove({ Username: req.params.Username })
     .then((user) => {
