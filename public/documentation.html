@@ -319,13 +319,17 @@ Example response:
                     </td>
                 </tr>
                 <tr>
-                    <td>This allows users to remove movies from favorites</td>
-                    <td>/users/movies/favorites/:Title<div>http://localhost:8080/users/movies/favorites/RBG</div>
+                    <td>This allows users to remove movies from their favorite movies array</td>
+                    <td>/users/:Username/favoritemovies/:MovieID<div>
+                            </br>"http://localhost:8080/users/LeslieKnope/favoritemovies/605cf6e67759ae52096e6f03"</div>
                     </td>
                     <td>DELETE</td>
                     <td>None</td>
-                    <td>
-                        Successful DELETE request deleting specified title from existing user
+                    <td>Confirmation that specified movie has been removed from the user's favorite
+                        movies.</br></br>Example response:
+                        <pre></br>
+Movie ID 605cf6e67759ae52096e6f03 was deleted from user LeslieKnope                       
+                    </pre>
                     </td>
                 </tr>
                 <tr>
@@ -337,7 +341,7 @@ Example response:
                     <td>
                         Example response:</br></br>
                         <pre>
-LeslieKnope was deleted.
+User LeslieKnope was deleted.
                     </pre>
                     </td>
                 </tr>
