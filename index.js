@@ -184,20 +184,23 @@ app.post('/users/:Username/movies/:MovieID', (req, res) => {
 
 //Allow users to remove a movie from their list of favorites
 app.delete('/users/:Username/favoritemovies/:MovieID', (req, res) => {
-  console.log('-----------------------HERE ' + req.params.MovieID);
-  Users.findOneAndRemove(
-    { Username: req.params.Username },
+  Users.findOneAndUpdate(
+    { Username: req.params.Username }, //condition for which documents to update
     {
-      $pull: { FavoriteMovies: req.params.MovieID },
+      $pull: { FavoriteMovies: req.params.MovieID }, //an object that includes which fields to update and what to update them to
     },
     { new: true }
   )
-    .then((movie) => {
-      if (!movie) {
-        //check whether a document with the searched-for movie even exists
+    //promise function after findOneAndRemove is completed
+    .then((updatedUserFavs) => {
+      if (!req.params.MovieID) {
         res.status(400).send(req.params.MovieID + ' was not found');
+      }
+      if (!req.params.Username) {
+        res.status(400).send(req.params.Username + ' was not found');
       } else {
-        res.status(200).send(req.params.MovieID + ' was deleted.');
+        res.status(200).send('Movie ID ' + req.params.MovieID + ' was deleted from user ' + req.params.Username);
+        res.json(updatedUserFavs);
       }
     })
     .catch((err) => {
@@ -214,7 +217,7 @@ app.delete('/users/:Username', (req, res) => {
         //check whether a document with the searched-for username even exists
         res.status(400).send(req.params.Username + ' was not found');
       } else {
-        res.status(200).send(req.params.Username + ' was deleted.');
+        res.status(200).send('User ' + req.params.Username + ' was deleted.');
       }
     })
     .catch((err) => {
