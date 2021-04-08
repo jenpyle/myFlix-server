@@ -184,31 +184,30 @@ app.put('/users/:Username', passport.authenticate('jwt', { session: false }), (r
 
 //Allow users to add a movie to their list of favorites
 app.post('/users/:Username/movies/:MovieID', passport.authenticate('jwt', { session: false }), (req, res) => {
-  Users.findOneAndUpdate(
-    { Username: req.params.Username },
-    {
-      $addToSet: { FavoriteMovies: req.params.MovieID },
-    },
-    { new: true }
-  )
-    .then((user) => {
-      if (!req.params.MovieID) {
-        //how to I check if the MovieID Exists?
-        res.status(400).send('MovieID ' + req.params.MovieID + ' was not found'); ////////////////////////////////////
-      }
-      if (!user) {
-        res.status(400).send('User was not found'); ////////////////////////////////////
-      } else {
-        res
-          .status(201)
-          .send('Movie ID ' + req.params.MovieID + ' was added to favorite movies for user ' + req.params.Username);
-        res.json(user);
-      }
-    })
-    .catch((err) => {
-      console.error(err);
-      res.status(500).send('Error: ' + err);
-    });
+  Movies.findById(req.params.MovieID)
+    .then(() =>
+      Users.findOneAndUpdate(
+        { Username: req.params.Username },
+        {
+          $addToSet: { FavoriteMovies: req.params.MovieID || '' },
+        },
+        { new: true }
+      )
+        .then((user) => {
+          if (!user) {
+            res.status(400).send('User ' + req.params.Username + ' was not found');
+          } else {
+            res
+              .status(201)
+              .send('Movie ID ' + req.params.MovieID + ' was added to favorite movies for user ' + req.params.Username);
+          }
+        })
+        .catch((err) => {
+          console.error(err);
+          res.status(500).send('Error: ' + err);
+        })
+    )
+    .catch(() => res.status(500).send(`Movie id ${req.params.MovieID} not found`));
 });
 
 //Allow users to remove a movie from their list of favorites
