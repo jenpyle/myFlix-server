@@ -3,7 +3,9 @@ const express = require('express'),
   bodyParser = require('body-parser'),
   mongoose = require('mongoose'),
   Models = require('./models.js'),
-  passport = require('passport');
+  passport = require('passport'),
+  cors = require('cors'),
+  { check, validationResult } = require('express-validator');
 
 const app = express();
 
@@ -27,6 +29,7 @@ app.use(bodyParser.json()); //!!MUST appear before any other endpoint middleware
 app.use(morgan('common'));
 app.use(express.static('public'));
 app.use(requestTime);
+app.use(cors());
 app.use((err, req, res, next) => {
   console.error(err.stack);
   res.status(500).send('Something broke!');
@@ -126,7 +129,8 @@ app.get('/movies/directors/:Name', passport.authenticate('jwt', { session: false
 
 // Allow new users to register
 app.post('/users', (req, res) => {
-  Users.findOne({ Username: req.body.Username })
+  let hashedPassword = Users.hashPassword(req.body.Password); //Hash any password entered by the user when registering before storing it in the MongoDB database
+  Users.findOne({ Username: req.body.Username }) // Search to see if a user with the requested username already exists
     .then((user) => {
       if (user) {
         return res.status(400).send(req.body.Username + ' already exists');
@@ -134,7 +138,7 @@ app.post('/users', (req, res) => {
         Users.create({
           //Mongoose command used on the User model to execute the database operation on MongoDB automatically. To insert a record into your “Users” collection
           Username: req.body.Username,
-          Password: req.body.Password,
+          Password: hashedPassword,
           Email: req.body.Email,
           Birthday: req.body.Birthday,
         }) // send a response back to the client that contains both a status code and the document (called “user”) you just created
