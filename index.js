@@ -187,12 +187,12 @@ app.post('/users/:Username/movies/:MovieID', passport.authenticate('jwt', { sess
   Movies.findById(req.params.MovieID)
     .then(() =>
       Users.findOneAndUpdate(
-        { Username: req.params.Username },
+        { Username: req.params.Username }, //condition for which documents to update
         {
-          $addToSet: { FavoriteMovies: req.params.MovieID || '' },
+          $addToSet: { FavoriteMovies: req.params.MovieID || '' }, //an object that includes which fields to update and what to update them to
         },
         { new: true }
-      )
+      ) //promise function after findOneAndUpdate is completed
         .then((user) => {
           if (!user) {
             res.status(400).send('User ' + req.params.Username + ' was not found');
@@ -211,30 +211,29 @@ app.post('/users/:Username/movies/:MovieID', passport.authenticate('jwt', { sess
 });
 
 //Allow users to remove a movie from their list of favorites
-app.delete('/users/:Username/favoritemovies/:MovieID', passport.authenticate('jwt', { session: false }), (req, res) => {
-  Users.findOneAndUpdate(
-    { Username: req.params.Username }, //condition for which documents to update
-    {
-      $pull: { FavoriteMovies: req.params.MovieID }, //an object that includes which fields to update and what to update them to
-    },
-    { new: true }
-  )
-    //promise function after findOneAndRemove is completed
-    .then((updatedUserFavs) => {
-      if (!req.params.MovieID) {
-        res.status(400).send('MovieID ' + req.params.MovieID + ' was not found');
-      }
-      if (!req.params.Username) {
-        res.status(400).send('User ' + req.params.Username + ' was not found');
-      } else {
-        res.status(200).send('Movie ID ' + req.params.MovieID + ' was deleted from user ' + req.params.Username);
-        res.json(updatedUserFavs);
-      }
-    })
-    .catch((err) => {
-      console.error(err);
-      res.status(500).send('Error: ' + err);
-    });
+app.delete('/users/:Username/movies/:MovieID', passport.authenticate('jwt', { session: false }), (req, res) => {
+  Movies.findById(req.params.MovieID)
+    .then(() =>
+      Users.findOneAndUpdate(
+        { Username: req.params.Username }, //condition for which documents to update
+        {
+          $pull: { FavoriteMovies: req.params.MovieID || '' }, //an object that includes which fields to update and what to update them to
+        },
+        { new: true }
+      ) //promise function after findOneAndUpdate is completed
+        .then((user) => {
+          if (!user) {
+            res.status(400).send('User ' + req.params.Username + ' was not found');
+          } else {
+            res.status(201).send('Movie ID ' + req.params.MovieID + ' was deleted from user ' + req.params.Username);
+          }
+        })
+        .catch((err) => {
+          console.error(err);
+          res.status(500).send('Error: ' + err);
+        })
+    )
+    .catch(() => res.status(500).send(`Movie id ${req.params.MovieID} not found`));
 });
 
 //Allow existing users to deregister
