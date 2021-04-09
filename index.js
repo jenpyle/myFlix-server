@@ -38,7 +38,7 @@ app.use((err, req, res, next) => {
 app.get('/', (req, res) => {
   let responseText = 'Welcome to my app!';
   responseText += '<small>Requested at: ' + req.requestTime + '</small>';
-  res.send(responseText);
+  res.status(200).send(responseText);
 });
 
 //Return a list of ALL movies to the user
@@ -48,9 +48,9 @@ app.get('/movies', passport.authenticate('jwt', { session: false }), (req, res) 
     .then((movies) => {
       if (!movies) {
         //check whether a document with the searched-for director even exists
-        res.status(400).send('No movies found');
+        res.status(200).send('No movies found');
       } else {
-        res.status(200).json(movies); ///////////////////////should this be 200 or 201? its 201 in the exercise example in 'Incorperating Authorization into your API Endpoints' section
+        res.status(200).json(movies);
       }
     })
     .catch((err) => {
@@ -65,9 +65,9 @@ app.get('/users', passport.authenticate('jwt', { session: false }), (req, res) =
     .then((users) => {
       if (!users) {
         //check whether a document with users even exists
-        res.status(400).send('No users found');
+        res.status(200).send('No users found');
       } else {
-        res.json(users);
+        res.status(200).json(users);
       }
     })
     .catch((err) => {
@@ -82,7 +82,7 @@ app.get('/movies/:Title', passport.authenticate('jwt', { session: false }), (req
     .then((movie) => {
       if (!movie) {
         //check whether a document with the searched-for director even exists
-        res.status(400).send('The movie ' + req.params.Title + ' was not found');
+        res.status(404).send('The movie ' + req.params.Title + ' was not found');
       } else {
         res.status(200).json(movie.Description);
       }
@@ -99,7 +99,7 @@ app.get('/movies/genres/:Name', passport.authenticate('jwt', { session: false })
     .then((movie) => {
       if (!movie) {
         //check whether a document with the searched-for director even exists
-        res.status(400).send('Genre ' + req.params.Name + ' was not found');
+        res.status(404).send('Genre ' + req.params.Name + ' was not found');
       } else {
         res.status(200).json(movie.Genre.Description);
       }
@@ -116,9 +116,9 @@ app.get('/movies/directors/:Name', passport.authenticate('jwt', { session: false
     .then((movie) => {
       if (!movie) {
         //check whether a document with the searched-for director even exists
-        res.status(400).send('Director ' + req.params.Name + ' was not found');
+        res.status(404).send('Director ' + req.params.Name + ' was not found');
       } else {
-        res.json(movie.Director);
+        res.status(200).json(movie.Director);
       }
     })
     .catch((err) => {
@@ -133,7 +133,7 @@ app.post('/users', (req, res) => {
   Users.findOne({ Username: req.body.Username }) // Search to see if a user with the requested username already exists
     .then((user) => {
       if (user) {
-        return res.status(400).send(req.body.Username + ' already exists');
+        return res.status(409).send(req.body.Username + ' already exists');
       } else {
         Users.create({
           //Mongoose command used on the User model to execute the database operation on MongoDB automatically. To insert a record into your “Users” collection
@@ -175,7 +175,7 @@ app.put('/users/:Username', passport.authenticate('jwt', { session: false }), (r
   )
     .then((updatedUser) => {
       if (!updatedUser) {
-        res.status(400).send('User ' + req.params.Username + ' was not found');
+        res.status(404).send('User ' + req.params.Username + ' was not found');
       } else {
         res.status(200).json(updatedUser); //document that was just updated (updatedUser) is sent to the client as a response
       }
@@ -188,58 +188,56 @@ app.put('/users/:Username', passport.authenticate('jwt', { session: false }), (r
 
 //Allow users to add a movie to their list of favorites
 app.post('/users/:Username/movies/:MovieID', passport.authenticate('jwt', { session: false }), (req, res) => {
-  Users.findOneAndUpdate(
-    { Username: req.params.Username },
-    {
-      $addToSet: { FavoriteMovies: req.params.MovieID },
-    },
-    { new: true }
-  )
-    .then((user) => {
-      if (!req.params.MovieID) {
-        //how to I check if the MovieID Exists?
-        res.status(400).send('MovieID ' + req.params.MovieID + ' was not found'); ////////////////////////////////////
-      }
-      if (!user) {
-        res.status(400).send('User was not found'); ////////////////////////////////////
-      } else {
-        res
-          .status(201)
-          .send('Movie ID ' + req.params.MovieID + ' was added to favorite movies for user ' + req.params.Username);
-        res.json(user);
-      }
-    })
-    .catch((err) => {
-      console.error(err);
-      res.status(500).send('Error: ' + err);
-    });
+  Movies.findById(req.params.MovieID)
+    .then(() =>
+      Users.findOneAndUpdate(
+        { Username: req.params.Username }, //condition for which documents to update
+        {
+          $addToSet: { FavoriteMovies: req.params.MovieID || '' }, //an object that includes which fields to update and what to update them to
+        },
+        { new: true }
+      ) //promise function after findOneAndUpdate is completed
+        .then((user) => {
+          if (!user) {
+            res.status(404).send('User ' + req.params.Username + ' was not found');
+          } else {
+            res
+              .status(201)
+              .send('Movie ID ' + req.params.MovieID + ' was added to favorite movies for user ' + req.params.Username);
+          }
+        })
+        .catch((err) => {
+          console.error(err);
+          res.status(500).send('Error: ' + err);
+        })
+    )
+    .catch(() => res.status(404).send(`Movie id ${req.params.MovieID} not found`));
 });
 
 //Allow users to remove a movie from their list of favorites
-app.delete('/users/:Username/favoritemovies/:MovieID', passport.authenticate('jwt', { session: false }), (req, res) => {
-  Users.findOneAndUpdate(
-    { Username: req.params.Username }, //condition for which documents to update
-    {
-      $pull: { FavoriteMovies: req.params.MovieID }, //an object that includes which fields to update and what to update them to
-    },
-    { new: true }
-  )
-    //promise function after findOneAndRemove is completed
-    .then((updatedUserFavs) => {
-      if (!req.params.MovieID) {
-        res.status(400).send('MovieID ' + req.params.MovieID + ' was not found');
-      }
-      if (!req.params.Username) {
-        res.status(400).send('User ' + req.params.Username + ' was not found');
-      } else {
-        res.status(200).send('Movie ID ' + req.params.MovieID + ' was deleted from user ' + req.params.Username);
-        res.json(updatedUserFavs);
-      }
-    })
-    .catch((err) => {
-      console.error(err);
-      res.status(500).send('Error: ' + err);
-    });
+app.delete('/users/:Username/movies/:MovieID', passport.authenticate('jwt', { session: false }), (req, res) => {
+  Movies.findById(req.params.MovieID)
+    .then(() =>
+      Users.findOneAndUpdate(
+        { Username: req.params.Username }, //condition for which documents to update
+        {
+          $pull: { FavoriteMovies: req.params.MovieID || '' }, //an object that includes which fields to update and what to update them to
+        },
+        { new: true }
+      ) //promise function after findOneAndUpdate is completed
+        .then((user) => {
+          if (!user) {
+            res.status(404).send('User ' + req.params.Username + ' was not found');
+          } else {
+            res.status(200).send('Movie ID ' + req.params.MovieID + ' was deleted from user ' + req.params.Username);
+          }
+        })
+        .catch((err) => {
+          console.error(err);
+          res.status(500).send('Error: ' + err);
+        })
+    )
+    .catch(() => res.status(404).send(`Movie id ${req.params.MovieID} not found`));
 });
 
 //Allow existing users to deregister
@@ -248,7 +246,7 @@ app.delete('/users/:Username', passport.authenticate('jwt', { session: false }),
     .then((user) => {
       if (!user) {
         //check whether a document with the searched-for username even exists
-        res.status(400).send(req.params.Username + ' was not found');
+        res.status(404).send(req.params.Username + ' was not found');
       } else {
         res.status(200).send('User ' + req.params.Username + ' was deleted.');
       }
