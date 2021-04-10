@@ -1,5 +1,6 @@
 //Schemas for users and movies
 const mongoose = require('mongoose');
+const bcrypt = require('bcrypt');
 
 let movieSchema = mongoose.Schema({
   Title: { type: String, required: true },
@@ -28,6 +29,14 @@ let userSchema = mongoose.Schema({
   ] /*this array of IDs refrence the "db.movies" collection....links "Users" collection to "Movies" collection
   ------We use the singular “Movie” because that is the name of the model which links the movieSchema to its database collection*/,
 });
+
+userSchema.statics.hashPassword = (password) => {
+  return bcrypt.hashSync(password, 10);
+};
+
+userSchema.methods.validatePassword = function (password) {
+  return bcrypt.compareSync(password, this.Password);
+};
 
 //This will create collections called “db.movies” and “db.users” within the MongoDB database you created in the previous Exercise
 let Movie = mongoose.model('Movie', movieSchema); //Moive becomes "movies". Any titles you pass through will come out on the other side as lowercase and pluralized
