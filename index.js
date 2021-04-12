@@ -34,6 +34,7 @@ app.use(cors());
 app.use((err, req, res, next) => {
   console.error(err.stack);
   res.status(500).send('Something broke!');
+  s;
 });
 
 app.get('/', (req, res) => {
@@ -196,30 +197,43 @@ app.put(
         errors: errors.array(),
       });
     }
+    let hashedPassword = Users.hashPassword(req.body.Password);
     /* If an error occurs, the rest of the code will not execute, keeping your database safe from any potentially malicious code. */
-    Users.findOneAndUpdate(
-      { Username: req.params.Username },
-      {
-        //2nd callback param
-        $set: {
-          Username: req.body.Username,
-          Password: req.body.Password,
-          Email: req.body.Email,
-          Birthday: req.body.Birthday,
-        },
-      },
-      { new: true } // This line makes sure that the updated document is returned
-    )
-      .then((updatedUser) => {
-        if (!updatedUser) {
-          res.status(404).send('User ' + req.params.Username + ' was not found');
+    Users.findOne({ Username: req.body.Username }) // Search to see if a user with the requested username already exists
+      .then((user) => {
+        if (user) {
+          return res.status(409).send(req.body.Username + ' already exists');
         } else {
-          res.status(200).json(updatedUser); //document that was just updated (updatedUser) is sent to the client as a response
+          Users.findOneAndUpdate(
+            { Username: req.params.Username },
+            {
+              //2nd callback param
+              $set: {
+                Username: req.body.Username,
+                Password: hashedPassword,
+                Email: req.body.Email,
+                Birthday: req.body.Birthday,
+              },
+            },
+            { new: true } // This line makes sure that the updated document is returned
+          )
+            .then((updatedUser) => {
+              if (!updatedUser) {
+                res.status(404).send('User ' + req.params.Username + ' was not found');
+              } else {
+                res.status(200).json(updatedUser); //document that was just updated (updatedUser) is sent to the client as a response
+              }
+            })
+            .catch((err) => {
+              console.error(err);
+              res.status(500).send('Error: ' + err);
+            });
         }
       })
-      .catch((err) => {
-        console.error(err);
-        res.status(500).send('Error: ' + err);
+      .catch((error) => {
+        //an important catch-all in case command runs into an error
+        console.error(error);
+        res.status(500).send('Error: ' + error);
       });
   }
 );
