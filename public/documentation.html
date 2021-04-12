@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <link rel="shortcut icon" type="image/png" href="/img/flix-favicon.png" />
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Bungee+Outline&family=Londrina+Outline&display=swap"
@@ -24,29 +25,33 @@
         <div class="description">
             <p>
                 This is the server-side component of a “movies” web application. This web
-                application will provide users with access to information about different
-                movies, directors, and genres. Users will be able to sign up, update their
-                personal information, and create a list of their favorite movies
+                application provides users with access to information about different
+                movies, directors, and genres. Users can sign up, update their
+                personal information, and create a list of their favorite movies!
             </p>
         </div>
-        <div class="documentation-tables">
+        <div>
             <table>
-                <tr>
-                    <th>Description</th>
-                    <th>URL Endpoint</th>
-                    <th>HTTP Method</th>
-                    <th>Request Body Format</th>
-                    <th>Response Body Format</th>
-                </tr>
-                <tr>
-                    <td>This endpoint will return a list of all the movies in the database</td>
-                    <td>/movies<div><br />
-                            "http://localhost:8080/movies"</div>
-                    </td>
-                    <td>GET</td>
-                    <td>None</td>
-                    <td>A JSON object with data about all the movies. </br></br>Example response:
-                        <pre></br>
+                <thead>
+                    <tr>
+                        <th>Description</th>
+                        <th>URL Endpoint</th>
+                        <th>HTTP Method</th>
+                        <th>Request Body Format</th>
+                        <th>Response Body Format</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>This endpoint will return a list of all the movies in the database</td>
+                        <td class="url">/movies<div><br />
+                                "http://localhost:8080/movies"</div>
+                        </td>
+                        <td>GET</td>
+                        <td>None</td>
+                        <td class="response-json">A JSON object with data about all the movies. </br></br>Example
+                            response:
+                            <pre></br>
 {
     "Title": "Hidden Figures",
     "Year": "2016",
@@ -160,61 +165,66 @@
     "Poster": "https://m.media-amazon.com/images/M/MV5BMTYzODQzYjQtNTczNC00MzZhLTg1ZWYtZDUxYmQ3ZTY4NzA1XkEyXkFqcGdeQXVyODE5NzE3OTE@._V1_SX300.jpg"
 }     
 </pre>
-                    </td>
-                </tr>
-                <tr>
-                    <td>This endpoint will get the description about a single movie title</td>
-                    <td>/movies/:Title<div></br>"http://localhost:8080/movies/Miss%20Congeniality"</div>
-                    </td>
-                    <td>GET</td>
-                    <td>None</td>
-                    <td>Description of the specified movie title.</br></br>Example response:
-                        <pre></br>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>This endpoint will get the description about a single movie title</td>
+                        <td class="url">/movies/:Title<div></br>"http://localhost:8080/movies/Miss%20Congeniality"</div>
+                        </td>
+                        <td>GET</td>
+                        <td>None</td>
+                        <td class="response-json">Description of the specified movie title.</br></br>Example response:
+                            <pre></br>
 "An F.B.I. Agent must go undercover in the 
 Miss United States beauty pageant to prevent 
 a group from bombing the event."                        
                     </pre>
-                    </td>
-                </tr>
-                <tr>
-                    <td>Return data about the genre of a single movie by title</td>
-                    <td>/movies/genres/:Name<div><br />"http://localhost:8080/movies/genres/Comedy"</div>
-                    </td>
-                    <td>GET</td>
-                    <td>None</td>
-                    <td>Description of the specified genre.</br></br>Example response:
-                        <pre></br>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Return data about the genre of a single movie by title</td>
+                        <td class="url">/movies/genres/:Name<div><br />"http://localhost:8080/movies/genres/Comedy"
+                            </div>
+                        </td>
+                        <td>GET</td>
+                        <td>None</td>
+                        <td class="response-json">Description of the specified genre.</br></br>Example response:
+                            <pre></br>
 "Comedy is a genre of film in which the main emphasis is on
  humor. These films are designed to make the audience laugh 
  through amusement and most often work by exaggerating 
  characteristics for humorous effect."                       
                     </pre>
-                    </td>
-                </tr>
-                <tr>
-                    <td>This will return data about a movie director by name</td>
-                    <td>/movies/directors/:Name<div></br>"http://localhost:8080/movies/directors/Julie%20Cohen"</div>
-                    </td>
-                    <td>GET</td>
-                    <td>None</td>
-                    <td>A JSON object with Name, Bio, and Birthday of the specified director.</br></br>Example response:
-                        <pre></br>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>This will return data about a movie director by name</td>
+                        <td class="url">/movies/directors/:Name<div>
+                                </br>"http://localhost:8080/movies/directors/Julie%20Cohen"
+                            </div>
+                        </td>
+                        <td>GET</td>
+                        <td>None</td>
+                        <td class="response-json">A JSON object with Name, Bio, and Birthday of the specified
+                            director.</br></br>Example
+                            response:
+                            <pre></br>
 {
     "Name": "Julie Cohen",
     "Bio": "a producer and director, known for RBG (2018)",
     "Birth": "1972"
 }                        
                     </pre>
-                    </td>
-                </tr>
-                <tr>
-                    <td>This allows new users to register</td>
-                    <td>/users<div></br>"http://localhost:8080/users"</div>
-                    </td>
-                    <td>POST</td>
-                    <td>
-                        A JSON object with new user data. </br>Example of request body:
-                        <pre>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>This allows new users to register</td>
+                        <td class="url">/users<div></br>"http://localhost:8080/users"</div>
+                        </td>
+                        <td>POST</td>
+                        <td>
+                            A JSON object with new user data. </br>Example of request body:
+                            <pre>
 
 {
   Username: "LeslieKnope",
@@ -223,10 +233,10 @@ a group from bombing the event."
   Birthday: "10/31/1996"
 }
                         </pre>
-                    </td>
-                    <td>
-                        A JSON object with data about the new user in this format:
-                        <pre>
+                        </td>
+                        <td class="response-json">
+                            A JSON object with data about the new user in this format:
+                            <pre>
 
 {
   ID: Integer,
@@ -249,17 +259,16 @@ Example response:
 }
 
                         </pre>
-                    </td>
-                </tr>
-
-                <tr>
-                    <td>This allows users to update their info/username</td>
-                    <td>/users/:Username<div></br>"http://localhost:8080/users/LeslieKnope"</div>
-                    </td>
-                    <td>PUT</td>
-                    <td>
-                        A JSON object with updated user data. </br>Example of request body:
-                        <pre>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>This allows users to update their info/username</td>
+                        <td class="url">/users/:Username<div></br>"http://localhost:8080/users/LeslieKnope"</div>
+                        </td>
+                        <td>PUT</td>
+                        <td>
+                            A JSON object with updated user data. </br>Example of request body:
+                            <pre>
 
 {
   "Username": "LeslieKnope1",
@@ -268,10 +277,10 @@ Example response:
   "Birthday": "10/31/1996"
 }
                         </pre>
-                    </td>
-                    <td>
-                        A JSON object with data about the updated user in this format:
-                        <pre>
+                        </td>
+                        <td class="response-json">
+                            A JSON object with data about the updated user in this format:
+                            <pre>
 
 {
   Username: String,(required)
@@ -292,18 +301,19 @@ Example response:
     "__v": 0
 }
                         </pre>
-                    </td>
-                </tr>
-                <tr>
-                    <td>This allows users to add a movie to their FavoriteMovies list</td>
-                    <td>/users/:Username/movies/:MovieID<div>
-                            </br>"http://localhost:8080/users/LeslieKnope1/Movies/605cf6e67759ae52096e6f03"</div>
-                    </td>
-                    <td>POST</td>
-                    <td>None</td>
-                    <td>A JSON object of the user's data, including the updated FavoriteMovies list.</br></br>Example
-                        response:
-                        <pre></br>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>This allows users to add a movie to their FavoriteMovies list</td>
+                        <td class="url">/users/:Username/movies/:MovieID<div>
+                                </br>"http://localhost:8080/users/LeslieKnope1/Movies/605cf6e67759ae52096e6f03"</div>
+                        </td>
+                        <td>POST</td>
+                        <td>None</td>
+                        <td class="response-json">A JSON object of the user's data, including the updated FavoriteMovies
+                            list.</br></br>Example
+                            response:
+                            <pre></br>
 {
     "FavoriteMovies": [
         "605cf6e67759ae52096e6f03"
@@ -316,39 +326,40 @@ Example response:
     "__v": 0
 }
                     </pre>
-                    </td>
-                </tr>
-                <tr>
-                    <td>This allows users to remove movies from their favorite movies array</td>
-                    <td>/users/:Username/favoritemovies/:MovieID<div>
-                            </br>"http://localhost:8080/users/LeslieKnope/favoritemovies/605cf6e67759ae52096e6f03"</div>
-                    </td>
-                    <td>DELETE</td>
-                    <td>None</td>
-                    <td>Confirmation that specified movie has been removed from the user's favorite
-                        movies.</br></br>Example response:
-                        <pre></br>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>This allows users to remove movies from their favorite movies array</td>
+                        <td class="url">/users/:Username/favoritemovies/:MovieID<div>
+                                </br>"http://localhost:8080/users/LeslieKnope/favoritemovies/605cf6e67759ae52096e6f03"
+                            </div>
+                        </td>
+                        <td>DELETE</td>
+                        <td>None</td>
+                        <td>Confirmation that specified movie has been removed from the user's favorite
+                            movies.</br></br>Example response:
+                            <pre></br>
 Movie ID 605cf6e67759ae52096e6f03 was deleted from user LeslieKnope                       
                     </pre>
-                    </td>
-                </tr>
-                <tr>
-                    <td>This allows users to deactivate their account</td>
-                    <td>/users<div></br>"http://localhost:8080/users/LeslieKnope"</div>
-                    </td>
-                    <td>DELETE</td>
-                    <td>None</td>
-                    <td>
-                        Example response:</br></br>
-                        <pre>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>This allows users to deactivate their account</td>
+                        <td class="url">/users<div></br>"http://localhost:8080/users/LeslieKnope"</div>
+                        </td>
+                        <td>DELETE</td>
+                        <td>None</td>
+                        <td class="response-json">
+                            Example response:</br></br>
+                            <pre>
 User LeslieKnope was deleted.
                     </pre>
-                    </td>
-                </tr>
+                        </td>
+                    </tr>
+                </tbody>
             </table>
         </div>
     </div>
 </body>
-<!-- ./mongoexport -d myFlixDB -c users -o users.json -->
 
 </html>
