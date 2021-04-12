@@ -17,7 +17,7 @@ const Users = Models.User;
 
 //Allows mongoose to connect to the database and perform CRUD operations on documents it contains with my REST API
 //mongoose.connect('mongodb://localhost:27017/myFlixDB', { useNewUrlParser: true, useUnifiedTopology: true });
-mongoose.connect('process.env.CONNECTION_URI', { useNewUrlParser: true, useUnifiedTopology: true });
+mongoose.connect(process.env.CONNECTION_URI, { useNewUrlParser: true, useUnifiedTopology: true });
 
 let auth = require('./auth')(app); //The app arugment ensures your application can make use of your “auth.js” file, and that your “auth.js” file can use Express
 
