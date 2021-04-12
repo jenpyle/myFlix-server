@@ -45,7 +45,7 @@
                     <tr>
                         <td>This endpoint will return a list of all the movies in the database</td>
                         <td class="url">/movies<div><br />
-                                "http://localhost:8080/movies"</div>
+                                "https://jennysflix.herokuapp.com/movies"</div>
                         </td>
                         <td>GET</td>
                         <td>None</td>
@@ -169,7 +169,8 @@
                     </tr>
                     <tr>
                         <td>This endpoint will get the description about a single movie title</td>
-                        <td class="url">/movies/:Title<div></br>"http://localhost:8080/movies/Miss%20Congeniality"</div>
+                        <td class="url">/movies/:Title<div>
+                                </br>"https://jennysflix.herokuapp.com/movies/Miss%20Congeniality"</div>
                         </td>
                         <td>GET</td>
                         <td>None</td>
@@ -183,7 +184,8 @@ a group from bombing the event."
                     </tr>
                     <tr>
                         <td>Return data about the genre of a single movie by title</td>
-                        <td class="url">/movies/genres/:Name<div><br />"http://localhost:8080/movies/genres/Comedy"
+                        <td class="url">/movies/genres/:Name<div>
+                                <br />"https://jennysflix.herokuapp.com/movies/genres/Comedy"
                             </div>
                         </td>
                         <td>GET</td>
@@ -200,7 +202,7 @@ a group from bombing the event."
                     <tr>
                         <td>This will return data about a movie director by name</td>
                         <td class="url">/movies/directors/:Name<div>
-                                </br>"http://localhost:8080/movies/directors/Julie%20Cohen"
+                                </br>"https://jennysflix.herokuapp.com/movies/directors/Julie%20Cohen"
                             </div>
                         </td>
                         <td>GET</td>
@@ -219,7 +221,7 @@ a group from bombing the event."
                     </tr>
                     <tr>
                         <td>This allows new users to register</td>
-                        <td class="url">/users<div></br>"http://localhost:8080/users"</div>
+                        <td class="url">/users<div></br>"https://jennysflix.herokuapp.com/users"</div>
                         </td>
                         <td>POST</td>
                         <td>
@@ -263,7 +265,8 @@ Example response:
                     </tr>
                     <tr>
                         <td>This allows users to update their info/username</td>
-                        <td class="url">/users/:Username<div></br>"http://localhost:8080/users/LeslieKnope"</div>
+                        <td class="url">/users/:Username<div></br>"https://jennysflix.herokuapp.com/users/LeslieKnope"
+                            </div>
                         </td>
                         <td>PUT</td>
                         <td>
@@ -306,7 +309,8 @@ Example response:
                     <tr>
                         <td>This allows users to add a movie to their FavoriteMovies list</td>
                         <td class="url">/users/:Username/movies/:MovieID<div>
-                                </br>"http://localhost:8080/users/LeslieKnope1/Movies/605cf6e67759ae52096e6f03"</div>
+                                </br>"https://jennysflix.herokuapp.com/users/LeslieKnope1/Movies/605cf6e67759ae52096e6f03"
+                            </div>
                         </td>
                         <td>POST</td>
                         <td>None</td>
@@ -331,7 +335,7 @@ Example response:
                     <tr>
                         <td>This allows users to remove movies from their favorite movies array</td>
                         <td class="url">/users/:Username/favoritemovies/:MovieID<div>
-                                </br>"http://localhost:8080/users/LeslieKnope/favoritemovies/605cf6e67759ae52096e6f03"
+                                </br>"https://jennysflix.herokuapp.com/users/LeslieKnope/favoritemovies/605cf6e67759ae52096e6f03"
                             </div>
                         </td>
                         <td>DELETE</td>
@@ -345,7 +349,7 @@ Movie ID 605cf6e67759ae52096e6f03 was deleted from user LeslieKnope
                     </tr>
                     <tr>
                         <td>This allows users to deactivate their account</td>
-                        <td class="url">/users<div></br>"http://localhost:8080/users/LeslieKnope"</div>
+                        <td class="url">/users<div></br>"https://jennysflix.herokuapp.com/users/LeslieKnope"</div>
                         </td>
                         <td>DELETE</td>
                         <td>None</td>
