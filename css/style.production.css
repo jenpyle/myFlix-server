@@ -1,0 +1,162 @@
+/*
+* Prefixed by https://autoprefixer.github.io
+* PostCSS: v7.0.29,
+* Autoprefixer: v9.7.6
+* Browsers: last 4 version
+*/
+
+*,
+*:after,
+*::before {
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-size: medium;
+}
+
+body {
+  font-family: 'Ubuntu', sans-serif;
+  font-weight: 400;
+  background-color: #ffdce7;
+  line-height: normal;
+  text-align: center;
+}
+
+h1 {
+  font-family: 'Bungee Outline', cursive;
+  font-family: 'Londrina Outline', cursive;
+  font-weight: bold;
+  line-height: normal;
+  font-size: 50px;
+}
+
+.page-header {
+  padding: 20px;
+  margin: 10px;
+  border-bottom: 1px solid Rosybrown;
+}
+
+.container {
+  max-width: 100%;
+}
+
+.description {
+  padding: 20px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+table tr:nth-child(odd) {
+  background: papayawhip;
+}
+
+table tr:nth-child(even) {
+  background: bisque;
+}
+
+th {
+  color: lightslategray;
+  font-size: 20px;
+  background: bisque;
+  border: 1px solid white;
+}
+
+td {
+  padding: 10px;
+  border: 1px solid white;
+}
+
+pre {
+  max-height: 200px;
+  margin-left: 20px;
+  text-align: left;
+}
+
+.url {
+  margin-left: 0px;
+  padding: 10px;
+  max-width: 300px;
+  overflow: auto;
+}
+
+.response-json {
+  max-width: 300px;
+  overflow: auto;
+}
+
+@media all and (max-width: 1435px) {
+  table,
+  thead,
+  tbody,
+  th,
+  td,
+  tr,
+  pre,
+  .url,
+  .response-json {
+    display: block;
+  }
+
+  thead tr {
+    position: absolute;
+    top: -9999px;
+    left: -9999px;
+  }
+
+  tr {
+    border: 5px solid #ffdce7;
+  }
+
+  td,
+  pre {
+    /* Behave  like a "row" */
+    border: none;
+    border-bottom: 2px solid white;
+    position: relative;
+    padding-left: 50%;
+  }
+
+  td:before {
+    /* Now like a table header */
+    position: absolute;
+    /* Top/left values mimic padding */
+    top: 6px;
+    left: 6px;
+    width: 45%;
+    padding-right: 10px;
+    white-space: nowrap;
+  }
+
+  .response-json:before,
+  .url:before {
+    height: 200px;
+    /* Now like a table header */
+    position: absolute;
+    /* Top/left values mimic padding */
+    top: 6px;
+    left: 6px;
+    width: 45%;
+    padding-right: 10px;
+    white-space: nowrap;
+  }
+
+  td:nth-of-type(1):before {
+    content: 'Description';
+  }
+  td:nth-of-type(2):before {
+    content: 'URL Endpoint';
+  }
+  td:nth-of-type(3):before {
+    content: 'HTTP Method';
+  }
+  td:nth-of-type(4):before {
+    content: 'Request Body Format';
+  }
+  td:nth-of-type(5):before {
+    content: 'Response Body Format';
+  }
+}
