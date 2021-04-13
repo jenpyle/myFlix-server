@@ -3,7 +3,7 @@
   --primary-background-color-darker: #ffdce7;
   --secondary-background-color: bisque;
   --list-seperation-color: papayawhip;
-  --red-color: #fc999b;
+  --grey: lightslategray;
   --primary-accent-color: Rosybrown;
   --selected-link-color: #489c79;
   --visited-color: #05676e;
@@ -63,7 +63,7 @@ table tr:nth-child(even) {
 }
 
 th {
-  color: lightslategray;
+  color: var(--grey);
   font-size: 20px;
   background: var(--secondary-background-color);
   border: 1px solid white;
@@ -162,17 +162,27 @@ pre {
 
   td:nth-of-type(1):before {
     content: 'Description';
+    font-weight: bold;
+    color: var(--grey);
   }
   .url:before {
     content: 'URL Endpoint';
+    font-weight: bold;
+    color: var(--grey);
   }
   td:nth-of-type(3):before {
     content: 'HTTP Method';
+    font-weight: bold;
+    color: var(--grey);
   }
   td:nth-of-type(4):before {
     content: 'Request Body Format';
+    font-weight: bold;
+    color: var(--grey);
   }
   .response-json:before {
     content: 'Response Body Format';
+    font-weight: bold;
+    color: var(--grey);
   }
 }
