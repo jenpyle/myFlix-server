@@ -219,7 +219,7 @@ app.put(
           )
             .then((updatedUser) => {
               if (!updatedUser) {
-                res.status(404).send('User ' + req.params.Username + ' was not found');
+                res.status(400).send('User ' + req.params.Username + ' could not be updated');
               } else {
                 res.status(200).json(updatedUser); //document that was just updated (updatedUser) is sent to the client as a response
               }
