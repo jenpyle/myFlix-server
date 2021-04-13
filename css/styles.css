@@ -92,7 +92,21 @@ pre {
   overflow: auto;
 }
 
+@media all and (min-width: 1435px) and (max-width: 1535px) {
+  *,
+  *:after,
+  *::before {
+    font-size: small;
+  }
+}
+
 @media all and (max-width: 1435px) {
+  *,
+  *:after,
+  *::before {
+    font-size: medium;
+  }
+
   table,
   thead,
   tbody,
