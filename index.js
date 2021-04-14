@@ -16,7 +16,7 @@ const Movies = Models.Movie; //can query the Movie model in  model.js
 const Users = Models.User;
 
 //Allows mongoose to connect to the database and perform CRUD operations on documents it contains with my REST API
-//mongoose.connect('mongodb://localhost:27017/myFlixDB', { useNewUrlParser: true, useUnifiedTopology: true });
+// mongoose.connect('mongodb://localhost:27017/myFlixDB', { useNewUrlParser: true, useUnifiedTopology: true });
 mongoose.connect(process.env.CONNECTION_URI, { useNewUrlParser: true, useUnifiedTopology: true });
 
 let requestTime = (req, res, next) => {
@@ -78,13 +78,13 @@ app.get('/users', passport.authenticate('jwt', { session: false }), (req, res) =
     });
 });
 
-//Return data about a single movie by title to the user
+//Return data about the current user
 app.get('/users/:Username', passport.authenticate('jwt', { session: false }), (req, res) => {
-  Users.findOne({ user: req.params.Username })
+  Users.findOne({ Username: req.params.Username })
     .then((user) => {
       if (!user) {
-        //check whether a document with the searched-for director even exists
-        res.status(404).send('The  user' + req.params.Username + ' was not found');
+        //check whether a document with the searched-for user even exists
+        res.status(404).send('The  user ' + req.params.Username + ' was not found');
       } else {
         res.status(200).json(user);
       }
@@ -330,3 +330,6 @@ const port = process.env.PORT || 8080;
 app.listen(port, '0.0.0.0', () => {
   console.log('Listening on Port ' + port);
 });
+// app.listen(8080, () => {
+//   console.log('Your app is listening on port 8080.');
+// });
