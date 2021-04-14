@@ -80,16 +80,48 @@ pre {
   text-align: left;
 }
 
-.url {
-  margin-left: 0px;
-  padding: 10px;
-  max-width: 300px;
+.url .pre-container {
   overflow: auto;
+  height: auto;
+  width: auto;
 }
 
 .response-json {
-  max-width: 300px;
+  /* max-width: 300px; */
   overflow: auto;
+}
+
+.pre-container {
+  width: 300px;
+  overflow: auto;
+  height: 300px;
+}
+
+table {
+  max-width: 100%;
+  width: 100%;
+  border-collapse: collapse;
+}
+pre {
+  /* white-space: pre-wrap; */
+}
+table td,
+table td * {
+  vertical-align: top;
+}
+pre {
+  width: 100%;
+  padding: 0;
+  margin: 0;
+  overflow: auto;
+  font-size: 12px;
+  line-height: 20px;
+  background: #efefef;
+  border: 1px solid #777;
+}
+pre code {
+  padding: 10px;
+  color: #333;
 }
 
 @media all and (min-width: 1435px) and (max-width: 1535px) {
@@ -112,10 +144,7 @@ pre {
   tbody,
   th,
   td,
-  tr,
-  pre,
-  .url,
-  .response-json {
+  tr {
     display: block;
   }
 
@@ -129,8 +158,7 @@ pre {
     border: 5px solid var(--primary-background-color-darker);
   }
 
-  td,
-  pre {
+  td {
     /* Behave  like a "row" */
     border: none;
     border-bottom: 2px solid white;
@@ -138,9 +166,7 @@ pre {
     padding-left: 50%;
   }
 
-  td:before,
-  .response-json:before,
-  .url:before {
+  td:before {
     /* Now like a table header */
     position: absolute;
     /* Top/left values mimic padding */
@@ -150,7 +176,7 @@ pre {
     padding-right: 10px;
     white-space: nowrap;
   }
-
+  /* 
   .response-json,
   .url {
     max-height: 100px;
@@ -158,6 +184,19 @@ pre {
     left: 49%;
     width: 45%;
     white-space: nowrap;
+  } */
+
+  .pre {
+    height: 250px;
+  }
+
+  .url .pre-container {
+    height: auto;
+  }
+  .pre-container {
+    margin-top: 20px;
+    height: 200px;
+    width: 300px;
   }
 
   td:nth-of-type(1):before {

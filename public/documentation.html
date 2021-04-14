@@ -30,7 +30,7 @@
                 personal information, and create a list of their favorite movies!
             </p>
         </div>
-        <div>
+        <div class="table-container">
             <table>
                 <thead>
                     <tr>
@@ -51,7 +51,8 @@
                         <td>None</td>
                         <td class="response-json">A JSON object with data about all the movies. </br></br>Example
                             response:
-                            <pre></br>
+                            <div class="pre-container">
+                                <pre>
 {
     "Title": "Hidden Figures",
     "Year": "2016",
@@ -66,7 +67,7 @@
     "Language": "English",
     "Country": "USA",
     "Awards": "Nominated for 3 Oscars. Another 37 wins & 85 nominations.",
-    "Poster": "https://m.media-amazon.com/images/M/MV5BMzg2Mzg4YmUtNDdkNy00NWY1LWE3NmEtZWMwNGNlMzE5YzU3XkEyXkFqcGdeQXVyMjA5MTIzMjQ@._V1_SX300.jpg"
+    "Poster": "img.jpg"
 },
 {
     "Title": "RBG",
@@ -78,11 +79,12 @@
     "Director": "Julie Cohen, Betsy West",
     "Writer": "N/A",
     "Actors": "Ruth Bader Ginsburg, Ann Kittner, Harryette Helsel, Stephen Wiesenfeld",
-    "Plot": "The exceptional life and career of U.S. Supreme Court Justice Ruth Bader Ginsburg, who has developed a breathtaking legal legacy while becoming an unexpected pop culture icon.",
+    "Plot": "The exceptional life and career of U.S. Supreme Court Justice Ruth Bader Ginsburg, who has developed a breathtaking legal legacy while
+     becoming an unexpected pop culture icon.",
     "Language": "English, Italian, German, French",
     "Country": "USA",
     "Awards": "Nominated for 2 Oscars. Another 13 wins & 49 nominations.",
-    "Poster": "https://m.media-amazon.com/images/M/MV5BNTE4Nzc0NDU3Nl5BMl5BanBnXkFtZTgwODIzMTQzNTM@._V1_SX300.jpg"
+    "Poster": "img.jpg"
 },
 {
     "Title": "Promising Young Woman",
@@ -98,8 +100,7 @@
     "Language": "English",
     "Country": "UK, USA",
     "Awards": "Nominated for 4 Golden Globes. Another 49 wins & 107 nominations.",
-    "Poster": "https://m.media-amazon.com/images/M/MV5BZDViMzBiNGMtZTIyNS00NzI4LWE3NDMtNmM1NDk0NzBlMWRlXkEyXkFqcGdeQXVyMTA2MDU0NjM5._V1_SX300.jpg"
-},
+    "Poster": "img.png"
 {
     "Title": "Teeth",
     "Year": "2007",
@@ -110,11 +111,12 @@
     "Director": "Mitchell Lichtenstein",
     "Writer": "Mitchell Lichtenstein",
     "Actors": "Jess Weixler, John Hensley, Josh Pais, Hale Appleman",
-    "Plot": "Still a stranger to her own body, a high school student discovers she has a physical advantage when she becomes the object of male violence.",
+    "Plot": "Still a stranger to her own body, a high school student discovers she has a physical advantage when she becomes the object of male
+     violence.",
     "Language": "English",
     "Country": "USA",
     "Awards": "2 wins & 10 nominations.",
-    "Poster": "https://m.media-amazon.com/images/M/MV5BZjVjMjY4MzMtYzljNi00NDQ5LTk3NTYtNzY5NzYyY2FjZTZmXkEyXkFqcGdeQXVyMTQxNzMzNDI@._V1_SX300.jpg"
+    "Poster": "Y5NzYyY2FjZTZmXkEyXkFqcGdeQXVyMTQxNzMzNDI@._V1_SX300.jpg"
 },
 {
     "Title": "Miss Congeniality",
@@ -130,8 +132,7 @@
     "Language": "English, Russian, French, Hawaiian, Spanish",
     "Country": "USA",
     "Awards": "Nominated for 2 Golden Globes. Another 7 wins & 6 nominations.",
-    "Poster": "https://m.media-amazon.com/images/M/MV5BZDhjNzc4N2MtNWE5ZC00N2M4LWFiYjEtMTE5YmYyMTg3OGY5XkEyXkFqcGdeQXVyMTkzODUwNzk@._V1_SX300.jpg"
-},
+    "Poster": "img.png"
 {
     "Title": "Bridesmaids",
     "Year": "2011",
@@ -142,11 +143,12 @@
     "Director": "Paul Feig",
     "Writer": "Kristen Wiig, Annie Mumolo",
     "Actors": "Kristen Wiig, Terry Crews, Maya Rudolph, Tom Yi",
-    "Plot": "Competition between the maid of honor and a bridesmaid, over who is the bride's best friend, threatens to upend the life of an out-of-work pastry chef.",
+    "Plot": "Competition between the maid of honor and a bridesmaid, over who is the bride's best friend, threatens to upend the life of an 
+    out-of-work pastry chef.",
     "Language": "English, Thai, Spanish, French",
     "Country": "USA",
     "Awards": "Nominated for 2 Oscars. Another 25 wins & 70 nominations.",
-    "Poster": "https://m.media-amazon.com/images/M/MV5BMjAyOTMyMzUxNl5BMl5BanBnXkFtZTcwODI4MzE0NA@@._V1_SX300.jpg"
+    "Poster": "https://m.media-amazon.comMzE0NA@@._V1_SX300.jpg"
 },
 {
     "Title": "Wonder Woman",
@@ -156,35 +158,38 @@
     "Runtime": "141 min",
     "Genre": "Action, Adventure, Fantasy, Sci-Fi, War",
     "Director": "Patty Jenkins",
-    "Writer": "Allan Heinberg (screenplay by), Zack Snyder (story by), Allan Heinberg (story by), Jason Fuchs (story by), William Moulton Marston (Wonder Woman created by)",
+    "Writer": "Allan Heinberg (screenplay by), Zack Snyder (story by), Allan Heinberg (story by), Jason Fuchs (story by), William Moulton Marston
+     (Wonder Woman created by)",
     "Actors": "Gal Gadot, Chris Pine, Connie Nielsen, Robin Wright",
     "Plot": "When a pilot crashes and tells of conflict in the outside world, Diana, an Amazonian warrior in training, leaves home to fight a war, discovering her full powers and true destiny.",
     "Language": "English, German, Dutch, French, Spanish, Chinese, Greek, Ancient (to 1453), North American Indian",
     "Country": "USA, UK",
     "Awards": "24 wins & 71 nominations.",
-    "Poster": "https://m.media-amazon.com/images/M/MV5BMTYzODQzYjQtNTczNC00MzZhLTg1ZWYtZDUxYmQ3ZTY4NzA1XkEyXkFqcGdeQXVyODE5NzE3OTE@._V1_SX300.jpg"
-}     
+    "Poster": "https://m.media-amazon.com/imYmQ3ZTE@._V1_SX300.jpg"
+}
+
 </pre>
+                            </div>
                         </td>
                     </tr>
                     <tr>
                         <td>This endpoint will get the description about a single movie title</td>
-                        <td class="url">/movies/:Title<div>
+                        <td class="url">/movies/:Title<div class="pre-container">
                                 </br>"https://jennysflix.herokuapp.com/movies/Miss%20Congeniality"</div>
                         </td>
                         <td>GET</td>
                         <td>None</td>
                         <td class="response-json">Description of the specified movie title.</br></br>Example response:
                             <pre></br>
-"An F.B.I. Agent must go undercover in the 
-Miss United States beauty pageant to prevent 
-a group from bombing the event"                        
+"An F.B.I. Agent must go undercover in the
+Miss United States beauty pageant to prevent
+a group from bombing the event."
                     </pre>
                         </td>
                     </tr>
                     <tr>
                         <td>Return data about the genre of a single movie by title</td>
-                        <td class="url">/movies/genres/:Name<div>
+                        <td class="url">/movies/genres/:Name<div class="pre-container">
                                 <br />"https://jennysflix.herokuapp.com/movies/genres/Comedy"
                             </div>
                         </td>
@@ -193,15 +198,15 @@ a group from bombing the event"
                         <td class="response-json">Description of the specified genre.</br></br>Example response:
                             <pre></br>
 "Comedy is a genre of film in which the main emphasis is on
- humor. These films are designed to make the audience laugh 
- through amusement and most often work by exaggerating 
- characteristics for humorous effect."                       
+ humor. These films are designed to make the audience laugh
+ through amusement and most often work by exaggerating
+ characteristics for humorous effect."
                     </pre>
                         </td>
                     </tr>
                     <tr>
                         <td>This will return data about a movie director by name</td>
-                        <td class="url">/movies/directors/:Name<div>
+                        <td class="url">/movies/directors/:Name<div class="pre-container">
                                 </br>"https://jennysflix.herokuapp.com/movies/directors/Julie%20Cohen"
                             </div>
                         </td>
@@ -215,7 +220,7 @@ a group from bombing the event"
     "Name": "Julie Cohen",
     "Bio": "a producer and director, known for RBG (2018)",
     "Birth": "1972"
-}                        
+}
                     </pre>
                         </td>
                     </tr>
@@ -247,9 +252,9 @@ a group from bombing the event"
   Email: String,
   Birthday: Date
 }
-                      
+
 Example response:
-                        
+
 {
     "FavoriteMovies": [],
     "_id": "60664a6dbe02655f8423ab56",
@@ -308,7 +313,7 @@ Example response:
                     </tr>
                     <tr>
                         <td>This allows users to add a movie to their FavoriteMovies list</td>
-                        <td class="url">/users/:Username/movies/:MovieID<div>
+                        <td class="url">/users/:Username/movies/:MovieID<div class="pre-container">
                                 </br>"https://jennysflix.herokuapp.com/users/LeslieKnope1/Movies/605cf6e67759ae52096e6f03"
                             </div>
                         </td>
@@ -334,7 +339,7 @@ Example response:
                     </tr>
                     <tr>
                         <td>This allows users to remove movies from their favorite movies array</td>
-                        <td class="url">/users/:Username/favoritemovies/:MovieID<div>
+                        <td class="url">/users/:Username/favoritemovies/:MovieID<div class="pre-container">
                                 </br>"https://jennysflix.herokuapp.com/users/LeslieKnope/favoritemovies/605cf6e67759ae52096e6f03"
                             </div>
                         </td>
@@ -343,7 +348,7 @@ Example response:
                         <td>Confirmation that specified movie has been removed from the user's favorite
                             movies.</br></br>Example response:
                             <pre></br>
-Movie ID 605cf6e67759ae52096e6f03 was deleted from user LeslieKnope                       
+Movie ID 605cf6e67759ae52096e6f03 was deleted from user LeslieKnope
                     </pre>
                         </td>
                     </tr>
