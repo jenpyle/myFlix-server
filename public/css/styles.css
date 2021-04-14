@@ -81,14 +81,17 @@ pre {
 }
 
 .url .pre-container {
+  max-width: 400px;
   overflow: auto;
   height: auto;
   width: auto;
 }
 
 .response-json {
-  /* max-width: 300px; */
   overflow: auto;
+  height: auto;
+  width: auto;
+  max-width: 400px;
 }
 
 .pre-container {
@@ -102,9 +105,7 @@ table {
   width: 100%;
   border-collapse: collapse;
 }
-pre {
-  /* white-space: pre-wrap; */
-}
+
 table td,
 table td * {
   vertical-align: top;
@@ -159,7 +160,6 @@ pre code {
   }
 
   td {
-    /* Behave  like a "row" */
     border: none;
     border-bottom: 2px solid white;
     position: relative;
@@ -167,27 +167,23 @@ pre code {
   }
 
   td:before {
-    /* Now like a table header */
     position: absolute;
-    /* Top/left values mimic padding */
     top: 6px;
     left: 6px;
     width: 45%;
-    padding-right: 10px;
+    /* padding-right: 10px; */
     white-space: nowrap;
   }
-  /* 
-  .response-json,
+
   .url {
-    max-height: 100px;
-    position: relative;
-    left: 49%;
-    width: 45%;
-    white-space: nowrap;
-  } */
+    overflow: auto;
+  }
 
   .pre {
     height: 250px;
+  }
+  .url .pre-container {
+    max-width: unset;
   }
 
   .url .pre-container {
@@ -199,29 +195,39 @@ pre code {
     width: 300px;
   }
 
+  .response-json {
+    max-width: unset;
+  }
+
   td:nth-of-type(1):before {
     content: 'Description';
     font-weight: bold;
     color: var(--grey);
+    margin-top: 5px;
   }
   .url:before {
     content: 'URL Endpoint';
     font-weight: bold;
     color: var(--grey);
+    margin-top: 20px;
   }
   td:nth-of-type(3):before {
     content: 'HTTP Method';
     font-weight: bold;
     color: var(--grey);
+    margin-top: 5px;
   }
   td:nth-of-type(4):before {
     content: 'Request Body Format';
     font-weight: bold;
     color: var(--grey);
+    margin-top: 5px;
   }
   .response-json:before {
     content: 'Response Body Format';
     font-weight: bold;
     color: var(--grey);
+    height: auto;
+    margin-top: 25px;
   }
 }

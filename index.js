@@ -322,6 +322,9 @@ app.delete(
   '/users/:Username/movies/favoritemovies/:MovieID',
   passport.authenticate('jwt', { session: false }),
   (req, res) => {
+    // Users.findOne({ Username: req.params.Username }).then((user) => {
+    //   console.log(user);
+    // });
     Movies.findById(req.params.MovieID)
       .then(() =>
         Users.findOneAndUpdate(

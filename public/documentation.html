@@ -51,7 +51,7 @@
                         <td>None</td>
                         <td class="response-json">A JSON object with data about all the movies. </br></br>Example
                             response:
-                            <div class="pre-container">
+                            <div>
                                 <pre>
 {
     "Title": "Hidden Figures",
@@ -180,10 +180,11 @@
                         <td>GET</td>
                         <td>None</td>
                         <td class="response-json">Description of the specified movie title.</br></br>Example response:
-                            <pre></br>
-"An F.B.I. Agent must go undercover in the
-Miss United States beauty pageant to prevent
-a group from bombing the event."
+                            <pre>
+
+    "An F.B.I. Agent must go undercover in the
+    Miss United States beauty pageant to prevent
+    a group from bombing the event."
                     </pre>
                         </td>
                     </tr>
@@ -196,11 +197,12 @@ a group from bombing the event."
                         <td>GET</td>
                         <td>None</td>
                         <td class="response-json">Description of the specified genre.</br></br>Example response:
-                            <pre></br>
-"Comedy is a genre of film in which the main emphasis is on
- humor. These films are designed to make the audience laugh
- through amusement and most often work by exaggerating
- characteristics for humorous effect."
+                            <pre>
+
+    "Comedy is a genre of film in which the main emphasis is on
+    humor. These films are designed to make the audience laugh
+    through amusement and most often work by exaggerating
+    characteristics for humorous effect."
                     </pre>
                         </td>
                     </tr>
@@ -215,100 +217,93 @@ a group from bombing the event."
                         <td class="response-json">A JSON object with Name, Bio, and Birthday of the specified
                             director.</br></br>Example
                             response:
-                            <pre></br>
-{
-    "Name": "Julie Cohen",
-    "Bio": "a producer and director, known for RBG (2018)",
-    "Birth": "1972"
-}
-                    </pre>
+                            <pre>
+    {
+        "Name": "Julie Cohen",
+        "Bio": "a producer and director, known for RBG (2018)",
+        "Birth": "1972"
+    }                    </pre>
                         </td>
                     </tr>
                     <tr>
                         <td>This allows new users to register</td>
-                        <td class="url">/users<div></br>"https://jennysflix.herokuapp.com/users"</div>
+                        <td class="url">/users<div class="pre-container"></br>"https://jennysflix.herokuapp.com/users"
+                            </div>
                         </td>
                         <td>POST</td>
                         <td>
                             A JSON object with new user data. </br>Example of request body:
                             <pre>
-
-{
-  Username: "LeslieKnope",
-  Password: "jellybeans123",
-  Email: "jennyP@gmail.com",
-  Birthday: "10/31/1996"
-}
-                        </pre>
+    {
+    Username: "LeslieKnope",
+    Password: "jellybeans123",
+    Email: "jennyP@gmail.com",
+    Birthday: "10/31/1996"
+    }                        </pre>
                         </td>
                         <td class="response-json">
                             A JSON object with data about the new user in this format:
                             <pre>
+    {
+    ID: Integer,
+    Username: String,
+    Password: String,
+    Email: String,
+    Birthday: Date
+    }
 
-{
-  ID: Integer,
-  Username: String,
-  Password: String,
-  Email: String,
-  Birthday: Date
-}
+    Example response:
 
-Example response:
-
-{
-    "FavoriteMovies": [],
-    "_id": "60664a6dbe02655f8423ab56",
-    "Username": "LeslieKnope",
-    "Password": "jellybeans123",
-    "Email": "jennyP@gmail.com",
-    "Birthday": "1996-10-31T07:00:00.000Z",
-    "__v": 0
-}
-
-                        </pre>
+    {
+        "FavoriteMovies": [],
+        "_id": "60664a6dbe02655f8423ab56",
+        "Username": "LeslieKnope",
+        "Password": "jellybeans123",
+        "Email": "jennyP@gmail.com",
+        "Birthday": "1996-10-31T07:00:00.000Z",
+        "__v": 0
+    }                        </pre>
                         </td>
                     </tr>
                     <tr>
                         <td>This allows users to update their info/username</td>
-                        <td class="url">/users/:Username<div></br>"https://jennysflix.herokuapp.com/users/LeslieKnope"
+                        <td class="url">/users/:Username<div class="pre-container">
+                                </br>"https://jennysflix.herokuapp.com/users/LeslieKnope"
                             </div>
                         </td>
                         <td>PUT</td>
                         <td>
                             A JSON object with updated user data. </br>Example of request body:
                             <pre>
-
-{
-  "Username": "LeslieKnope1",
-  "Password": "newPassword789",
-  "Email": "LeslieKnope@gmail.com",
-  "Birthday": "10/31/1996"
-}
+    {
+    "Username": "LeslieKnope1",
+    "Password": "newPassword789",
+    "Email": "LeslieKnope@gmail.com",
+    "Birthday": "10/31/1996"
+    }
                         </pre>
                         </td>
                         <td class="response-json">
                             A JSON object with data about the updated user in this format:
                             <pre>
+    {
+    Username: String,(required)
+    Password: String,(required)
+    Email: String,(required)
+    Birthday: Date
+    }
 
-{
-  Username: String,(required)
-  Password: String,(required)
-  Email: String,(required)
-  Birthday: Date
-}
+    Example response:
 
-Example response:
-
-{
-    "FavoriteMovies": [],
-    "_id": "60664a6dbe02655f8423ab56",
-    "Username": "LeslieKnope1",
-    "Password": "newPassword789",
-    "Email": "LeslieKnope@gmail.com",
-    "Birthday": "1996-10-31T07:00:00.000Z",
-    "__v": 0
-}
-                        </pre>
+    {
+        "FavoriteMovies": [],
+        "_id": "60664a6dbe02655f8423ab56",
+        "Username": "LeslieKnope1",
+        "Password": "newPassword789",
+        "Email": "LeslieKnope@gmail.com",
+        "Birthday": "1996-10-31T07:00:00.000Z",
+        "__v": 0
+    }                        </pre>
                         </td>
                     </tr>
                     <tr>
@@ -322,19 +317,18 @@ Example response:
                         <td class="response-json">A JSON object of the user's data, including the updated FavoriteMovies
                             list.</br></br>Example
                             response:
-                            <pre></br>
-{
-    "FavoriteMovies": [
-        "605cf6e67759ae52096e6f03"
-    ],
-    "_id": "60664a6dbe02655f8423ab56",
-    "Username": "LeslieKnope1",
-    "Password": "newPassword789",
-    "Email": "LeslieKnope@gmail.com",
-    "Birthday": "1996-10-31T07:00:00.000Z",
-    "__v": 0
-}
-                    </pre>
+                            <pre>
+    {
+        "FavoriteMovies": [
+            "605cf6e67759ae52096e6f03"
+        ],
+        "_id": "60664a6dbe02655f8423ab56",
+        "Username": "LeslieKnope1",
+        "Password": "newPassword789",
+        "Email": "LeslieKnope@gmail.com",
+        "Birthday": "1996-10-31T07:00:00.000Z",
+        "__v": 0
+    }                    </pre>
                         </td>
                     </tr>
                     <tr>
@@ -345,10 +339,12 @@ Example response:
                         </td>
                         <td>DELETE</td>
                         <td>None</td>
-                        <td>Confirmation that specified movie has been removed from the user's favorite
+                        <td class="response-json">Confirmation that specified movie has been removed from the user's
+                            favorite
                             movies.</br></br>Example response:
-                            <pre></br>
-Movie ID 605cf6e67759ae52096e6f03 was deleted from user LeslieKnope
+                            <pre>
+
+    Movie ID 605cf6e67759ae52096e6f03 was deleted from user LeslieKnope
                     </pre>
                         </td>
                     </tr>
@@ -361,7 +357,8 @@ Movie ID 605cf6e67759ae52096e6f03 was deleted from user LeslieKnope
                         <td class="response-json">
                             Example response:</br></br>
                             <pre>
-User LeslieKnope was deleted.
+
+    User LeslieKnope was deleted.
                     </pre>
                         </td>
                     </tr>
