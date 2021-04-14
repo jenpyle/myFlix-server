@@ -28,6 +28,7 @@ let userSchema = mongoose.Schema({
     { type: mongoose.Schema.Types.ObjectId, ref: 'Movie' },
   ] /*this array of IDs refrence the "db.movies" collection....links "Users" collection to "Movies" collection
   ------We use the singular “Movie” because that is the name of the model which links the movieSchema to its database collection*/,
+  ToWatch: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Movie' }],
 });
 
 userSchema.statics.hashPassword = (password) => {

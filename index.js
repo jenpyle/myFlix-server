@@ -16,8 +16,8 @@ const Movies = Models.Movie; //can query the Movie model in  model.js
 const Users = Models.User;
 
 //Allows mongoose to connect to the database and perform CRUD operations on documents it contains with my REST API
-// mongoose.connect('mongodb://localhost:27017/myFlixDB', { useNewUrlParser: true, useUnifiedTopology: true });
-mongoose.connect(process.env.CONNECTION_URI, { useNewUrlParser: true, useUnifiedTopology: true });
+mongoose.connect('mongodb://localhost:27017/myFlixDB', { useNewUrlParser: true, useUnifiedTopology: true });
+// mongoose.connect(process.env.CONNECTION_URI, { useNewUrlParser: true, useUnifiedTopology: true });
 
 let requestTime = (req, res, next) => {
   req.requestTime = Date.now();
@@ -256,13 +256,47 @@ app.put(
 );
 
 //Allow users to add a movie to their list of favorites
-app.post('/users/:Username/movies/:MovieID', passport.authenticate('jwt', { session: false }), (req, res) => {
+app.post(
+  '/users/:Username/movies/favoritemovies/:MovieID',
+  passport.authenticate('jwt', { session: false }),
+  (req, res) => {
+    Movies.findById(req.params.MovieID)
+      .then(() =>
+        Users.findOneAndUpdate(
+          { Username: req.params.Username }, //condition for which documents to update
+          {
+            $addToSet: { FavoriteMovies: req.params.MovieID || '' }, //an object that includes which fields to update and what to update them to
+          },
+          { new: true }
+        ) //promise function after findOneAndUpdate is completed
+          .then((user) => {
+            if (!user) {
+              res.status(404).send('User ' + req.params.Username + ' was not found');
+            } else {
+              res
+                .status(201)
+                .send(
+                  'Movie ID ' + req.params.MovieID + ' was added to favorite movies for user ' + req.params.Username
+                );
+            }
+          })
+          .catch((err) => {
+            console.error(err);
+            res.status(500).send('Error: ' + err);
+          })
+      )
+      .catch(() => res.status(404).send(`Movie id ${req.params.MovieID} not found`));
+  }
+);
+
+//Allow users to add a movie to their To Watch list
+app.post('/users/:Username/movies/towatch/:MovieID', passport.authenticate('jwt', { session: false }), (req, res) => {
   Movies.findById(req.params.MovieID)
     .then(() =>
       Users.findOneAndUpdate(
         { Username: req.params.Username }, //condition for which documents to update
         {
-          $addToSet: { FavoriteMovies: req.params.MovieID || '' }, //an object that includes which fields to update and what to update them to
+          $addToSet: { ToWatch: req.params.MovieID || '' }, //an object that includes which fields to update and what to update them to
         },
         { new: true }
       ) //promise function after findOneAndUpdate is completed
@@ -272,7 +306,7 @@ app.post('/users/:Username/movies/:MovieID', passport.authenticate('jwt', { sess
           } else {
             res
               .status(201)
-              .send('Movie ID ' + req.params.MovieID + ' was added to favorite movies for user ' + req.params.Username);
+              .send('Movie ID ' + req.params.MovieID + ' was added to ' + req.params.Username + '\'s "To Watch" list');
           }
         })
         .catch((err) => {
@@ -284,13 +318,43 @@ app.post('/users/:Username/movies/:MovieID', passport.authenticate('jwt', { sess
 });
 
 //Allow users to remove a movie from their list of favorites
-app.delete('/users/:Username/movies/:MovieID', passport.authenticate('jwt', { session: false }), (req, res) => {
+app.delete(
+  '/users/:Username/movies/favoritemovies/:MovieID',
+  passport.authenticate('jwt', { session: false }),
+  (req, res) => {
+    Movies.findById(req.params.MovieID)
+      .then(() =>
+        Users.findOneAndUpdate(
+          { Username: req.params.Username }, //condition for which documents to update
+          {
+            $pull: { FavoriteMovies: req.params.MovieID || '' }, //an object that includes which fields to update and what to update them to
+          },
+          { new: true }
+        ) //promise function after findOneAndUpdate is completed
+          .then((user) => {
+            if (!user) {
+              res.status(404).send('User ' + req.params.Username + ' was not found');
+            } else {
+              res.status(200).send('Movie ID ' + req.params.MovieID + ' was deleted from user ' + req.params.Username);
+            }
+          })
+          .catch((err) => {
+            console.error(err);
+            res.status(500).send('Error: ' + err);
+          })
+      )
+      .catch(() => res.status(404).send(`Movie id ${req.params.MovieID} not found`));
+  }
+);
+
+//Allow users to remove a movie from their To Watch list
+app.delete('/users/:Username/movies/towatch/:MovieID', passport.authenticate('jwt', { session: false }), (req, res) => {
   Movies.findById(req.params.MovieID)
     .then(() =>
       Users.findOneAndUpdate(
         { Username: req.params.Username }, //condition for which documents to update
         {
-          $pull: { FavoriteMovies: req.params.MovieID || '' }, //an object that includes which fields to update and what to update them to
+          $pull: { ToWatch: req.params.MovieID || '' }, //an object that includes which fields to update and what to update them to
         },
         { new: true }
       ) //promise function after findOneAndUpdate is completed
@@ -298,7 +362,11 @@ app.delete('/users/:Username/movies/:MovieID', passport.authenticate('jwt', { se
           if (!user) {
             res.status(404).send('User ' + req.params.Username + ' was not found');
           } else {
-            res.status(200).send('Movie ID ' + req.params.MovieID + ' was deleted from user ' + req.params.Username);
+            res
+              .status(200)
+              .send(
+                'Movie ID ' + req.params.MovieID + ' was deleted from ' + req.params.Username + '\'s "To Watch" list'
+              );
           }
         })
         .catch((err) => {
@@ -326,10 +394,10 @@ app.delete('/users/:Username', passport.authenticate('jwt', { session: false }),
     });
 });
 
-const port = process.env.PORT || 8080;
-app.listen(port, '0.0.0.0', () => {
-  console.log('Listening on Port ' + port);
-});
-// app.listen(8080, () => {
-//   console.log('Your app is listening on port 8080.');
+// const port = process.env.PORT || 8080;
+// app.listen(port, '0.0.0.0', () => {
+//   console.log('Listening on Port ' + port);
 // });
+app.listen(8080, () => {
+  console.log('Your app is listening on port 8080.');
+});
