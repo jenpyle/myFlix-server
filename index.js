@@ -322,31 +322,43 @@ app.delete(
   '/users/:Username/movies/favoritemovies/:MovieID',
   passport.authenticate('jwt', { session: false }),
   (req, res) => {
-    // Users.findOne({ Username: req.params.Username }).then((user) => {
-    //   console.log(user);
-    // });
-    Movies.findById(req.params.MovieID)
-      .then(() =>
-        Users.findOneAndUpdate(
-          { Username: req.params.Username }, //condition for which documents to update
-          {
-            $pull: { FavoriteMovies: req.params.MovieID || '' }, //an object that includes which fields to update and what to update them to
-          },
-          { new: true }
-        ) //promise function after findOneAndUpdate is completed
-          .then((user) => {
-            if (!user) {
-              res.status(404).send('User ' + req.params.Username + ' was not found');
-            } else {
-              res.status(200).send('Movie ID ' + req.params.MovieID + ' was deleted from user ' + req.params.Username);
+    let favMovies = [];
+    Users.findOne({ Username: req.params.Username })
+      .then((user) => {
+        console.log(user, 'user--------------------------------------');
+        favMovies = user.FavoriteMovies;
+        return Movies.findById(req.params.MovieID)
+          .then((movie) => {
+            console.log(movie, 'movie------------------------------------');
+            if (favMovies.indexOf(movie._id) === -1) {
+              res
+                .status(404)
+                .send(
+                  'Movie ' + req.params.MovieID + ' was not found in user ' + req.params.Username + "'s favorites list"
+                );
             }
+            return Users.findOneAndUpdate(
+              { Username: req.params.Username }, //condition for which documents to update
+              {
+                $pull: { FavoriteMovies: req.params.MovieID }, //an object that includes which fields to update and what to update them to
+              },
+              { new: true }
+            );
           })
-          .catch((err) => {
-            console.error(err);
-            res.status(500).send('Error: ' + err);
-          })
-      )
-      .catch(() => res.status(404).send(`Movie id ${req.params.MovieID} not found`));
+          .catch(() => res.status(404).send(`Movie id ${req.params.MovieID} not found`)); //for the movies.findbyID //promise function after findOneAndUpdate is completed
+      })
+
+      .then((user) => {
+        if (!user) {
+          res.status(404).send('User ' + req.params.Username + ' was not found');
+        } else {
+          res.status(200).send('Movie ID ' + req.params.MovieID + ' was deleted from user ' + req.params.Username);
+        }
+      })
+      .catch((err) => {
+        console.error(err);
+        res.status(500).send('Error: ' + err);
+      });
   }
 );
 
