@@ -45,7 +45,7 @@ app.get('/', (req, res) => {
 
 //Return a list of ALL movies to the user
 // app.get('/movies', passport.authenticate('jwt', { session: false }), (req, res) => {
-app.get('/movies', (req, res) => {
+app.get('/movies', passport.authenticate('jwt', { session: false }), (req, res) => {
   /* any request to the “movies” endpoint will require a JWT from the client. The JWT will be decoded and checked by the JWT authentication strategy you created earlier using Passport, which will authenticate the request. */
   Movies.find()
     .then((movies) => {
