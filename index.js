@@ -18,6 +18,7 @@ const Users = Models.User;
 //Allows mongoose to connect to the database and perform CRUD operations on documents it contains with my REST API
 // mongoose.connect('mongodb://localhost:27017/myFlixDB', { useNewUrlParser: true, useUnifiedTopology: true });
 mongoose.connect(process.env.CONNECTION_URI, { useNewUrlParser: true, useUnifiedTopology: true });
+/////////////////////////////////////HERE
 
 let requestTime = (req, res, next) => {
   req.requestTime = Date.now();
@@ -274,11 +275,10 @@ app.post(
             if (!user) {
               res.status(404).send('User ' + req.params.Username + ' was not found');
             } else {
-              res
-                .status(201)
-                .send(
-                  'Movie ID ' + req.params.MovieID + ' was added to favorite movies for user ' + req.params.Username
-                );
+              console.log(
+                'Movie ID ' + req.params.MovieID + ' was added to favorite movies for user ' + req.params.Username
+              );
+              res.status(201).send(user);
             }
           })
           .catch((err) => {
@@ -305,9 +305,10 @@ app.post('/users/:Username/movies/towatch/:MovieID', passport.authenticate('jwt'
           if (!user) {
             res.status(404).send('User ' + req.params.Username + ' was not found');
           } else {
-            res
-              .status(201)
-              .send('Movie ID ' + req.params.MovieID + ' was added to ' + req.params.Username + '\'s "To Watch" list');
+            console.log(
+              'Movie ID ' + req.params.MovieID + ' was added to ' + req.params.Username + '\'s "To Watch" list'
+            );
+            res.status(201).send(user);
           }
         })
         .catch((err) => {
@@ -348,12 +349,12 @@ app.delete(
           })
           .catch(() => res.status(404).send(`Movie id ${req.params.MovieID} not found`)); //for the movies.findbyID //promise function after findOneAndUpdate is completed
       })
-
       .then((user) => {
         if (!user) {
           res.status(404).send('User ' + req.params.Username + ' was not found');
         } else {
-          res.status(200).send('Movie ID ' + req.params.MovieID + ' was deleted from user ' + req.params.Username);
+          console.log('Movie ID ' + req.params.MovieID + ' was deleted from user ' + req.params.Username);
+          res.status(200).send(user);
         }
       })
       .catch((err) => {
@@ -378,11 +379,10 @@ app.delete('/users/:Username/movies/towatch/:MovieID', passport.authenticate('jw
           if (!user) {
             res.status(404).send('User ' + req.params.Username + ' was not found');
           } else {
-            res
-              .status(200)
-              .send(
-                'Movie ID ' + req.params.MovieID + ' was deleted from ' + req.params.Username + '\'s "To Watch" list'
-              );
+            console.log(
+              'Movie ID ' + req.params.MovieID + ' was deleted from ' + req.params.Username + '\'s "To Watch" list'
+            );
+            res.status(200).send(user);
           }
         })
         .catch((err) => {
