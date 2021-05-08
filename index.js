@@ -16,8 +16,8 @@ const Movies = Models.Movie; //can query the Movie model in  model.js
 const Users = Models.User;
 
 //Allows mongoose to connect to the database and perform CRUD operations on documents it contains with my REST API
-// mongoose.connect('mongodb://localhost:27017/myFlixDB', { useNewUrlParser: true, useUnifiedTopology: true });
-mongoose.connect(process.env.CONNECTION_URI, { useNewUrlParser: true, useUnifiedTopology: true });
+mongoose.connect('mongodb://localhost:27017/myFlixDB', { useNewUrlParser: true, useUnifiedTopology: true });
+// mongoose.connect(process.env.CONNECTION_URI, { useNewUrlParser: true, useUnifiedTopology: true });
 /////////////////////////////////////HERE
 
 let requestTime = (req, res, next) => {
@@ -257,7 +257,7 @@ app.put(
 
 //Allow users to update their user info (username)
 app.put(
-  '/users/:Username',
+  '/users/:Username/password',
   passport.authenticate('jwt', { session: false }),
   [
     check('Username', 'Username must be at least 5 characters').isLength({ min: 5 }),
