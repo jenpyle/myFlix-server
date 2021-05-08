@@ -16,8 +16,8 @@ const Movies = Models.Movie; //can query the Movie model in  model.js
 const Users = Models.User;
 
 //Allows mongoose to connect to the database and perform CRUD operations on documents it contains with my REST API
-// mongoose.connect('mongodb://localhost:27017/myFlixDB', { useNewUrlParser: true, useUnifiedTopology: true });
-mongoose.connect(process.env.CONNECTION_URI, { useNewUrlParser: true, useUnifiedTopology: true });
+mongoose.connect('mongodb://localhost:27017/myFlixDB', { useNewUrlParser: true, useUnifiedTopology: true });
+// mongoose.connect(process.env.CONNECTION_URI, { useNewUrlParser: true, useUnifiedTopology: true });
 /////////////////////////////////////HERE
 
 let requestTime = (req, res, next) => {
@@ -186,6 +186,64 @@ app.post(
             .catch((error) => {
               console.error(error);
               res.status(500).send('Error: ' + error);
+            });
+        }
+      })
+      .catch((error) => {
+        //an important catch-all in case command runs into an error
+        console.error(error);
+        res.status(500).send('Error: ' + error);
+      });
+  }
+);
+
+//Allow users to update their user info (WITHOUT password)
+app.put(
+  '/users/:Username',
+  passport.authenticate('jwt', { session: false }),
+  [
+    check('Username', 'Username must be at least 5 characters').isLength({ min: 5 }),
+    check('Username', 'Username contains non alphanumeric characters - not allowed').isAlphanumeric(),
+    check('Email', 'Email does not appear to be valid').isEmail(),
+  ],
+  (req, res) => {
+    //check the validation object for errors
+    let errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+      return res.status(422).json({
+        errors: errors.array(),
+      });
+    }
+    /* If an error occurs, the rest of the code will not execute, keeping your database safe from any potentially malicious code. */
+    Users.findOne({ Username: req.body.Username }) // Search to see if a user with the requested username already exists
+      .then((user) => {
+        if (req.params.Username !== req.body.Username && user !== null) {
+          /*if the username is being changed and it also finds a user that matches*/
+          return res.status(409).send(req.body.Username + ' already exists');
+        } else {
+          Users.findOneAndUpdate(
+            { Username: req.params.Username },
+            {
+              //2nd callback param
+              $set: {
+                Username: req.body.Username,
+                Email: req.body.Email,
+                Birthday: req.body.Birthday,
+              },
+            },
+            { new: true } // This line makes sure that the updated document is returned
+          )
+            .then((updatedUser) => {
+              if (!updatedUser) {
+                res.status(400).send('User ' + req.params.Username + ' could not be updated');
+              } else {
+                res.status(200).json(updatedUser); //document that was just updated (updatedUser) is sent to the client as a response
+              }
+            })
+            .catch((err) => {
+              console.error(err);
+              res.status(500).send('Error: ' + err);
             });
         }
       })
