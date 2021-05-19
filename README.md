@@ -1,4 +1,4 @@
-# MyFlix
+# MyFlix-server
 
 ## 1.Project description
 
