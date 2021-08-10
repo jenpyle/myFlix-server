@@ -42,6 +42,20 @@ The URL endpoints were tested via the API development tool, [Postman](https://ww
 ### Documentation
 A documentation page for the API can be viewed [here](https://jennysflix.herokuapp.com/documentation.html). This documentation provides examples for how to format requests to the API correctly (e.g., what URL endpoints to target, what data to send as parameters, and what data to expect as responses)
 
+## Business Logic Layer
+The business logic layer contains “logic” for converting code from the data layer (MongoDB) into something usable by the rest of the application. An ODM tool, [Mongoose](https://mongoosejs.com/docs/guide.html), does this job, translating between the Node.js application and the MongoDB database layer. Mongoose is also designed for asynchronous environments (which is a feature of the Node.js runtime environment).
+
+Mongoose revolves around models. Models in Mongoose are written using Node and Express and are kept in a separate [models.js](https://github.com/jenpyle/myFlix-server/blob/master/models.js) file. A model is a class that constructs documents according to a specified schema, specifying what data to store(e.g. Title, Description, Username, etc.) and how to store it(e.g. type: String, required: true, ref: ‘Movie’, etc.) for each document in a collection. This keeps data in the database consistently formatted. Schemas are defined for documents in the “Movies” and “Users” collection. These models are imported into index.js so the API endpoints can make use of them to query the MongoDB database according to the schemas. Mongoose is integrated into the REST API by requiring the module in index.js and using mongoose.connect to connect to the externally hosted database. This allows the REST API to perform CRUD operations on the MongoDB data.
+
+After this implementation, the API is able to receive requests, make the appropriate alterations to the database (using the business logic), and send responses accordingly!
+
+
+## Database Layer
+The Mongo shell from [MongoDB Database Tools](https://docs.mongodb.com/tools/) was utilized to create a non-relational database by performing [CRUD](https://docs.mongodb.com/manual/crud/) operations with data. The database consists of two collections: Movies and Users, with embedded documents for Director and Genre data. JSON examples of the movies and users collections can be [viewed here](https://github.com/jenpyle/myFlix-server/tree/master/public/example-collections). References are used to store a list of favorite movies for each user. JSON files of the database are imported onto “cluster” and hosted on [MongoDB Atlas](https://www.mongodb.com/cloud/atlas?tck=docs_server)
+
+
+
+
 ## 1.Project description
 
 A REST API and architected database built using JavaScript, Node.js, Express, and MongoDB. This is the server-side component of a “movies” web application which includes the server, business logic, and data layers. This web application provides users with access to information about different movies, directors, and genres. Users are able to sign up, update their personal information, and create a list of their favorite movies. 
