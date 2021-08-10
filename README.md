@@ -1,6 +1,6 @@
 # MyFlix-server
 
-## Detailed description
+# Detailed description
 - Layers
 - API
 - requirements
@@ -10,7 +10,7 @@
 - Database
 - Authentication
 
-### RESTful API
+## RESTful API
 The API, which is an abstraction of the web server, is what allows clients to access data directly from the web server. The API’s job is to read an HTTP request sent from the client, apply a CRUD operation on the requested resource on the server, and send an HTTP response back to the client.
 
 The API was created using [Node.js](https://nodejs.org/en/) as the runtime environment, which allowed JavaScript to be executed directly on my operating system rather than just in the browser, which was important because the server-side for myFlix was developed before the [client-side UI](https://github.com/jenpyle/myFlix-client). 
@@ -19,7 +19,7 @@ This is a RESTful API, as it is architectured with a [Representational State Tra
 
 The development of the API was streamlined by using the server-side web framework, [Express](https://expressjs.com/). Rather than using Node Modules, like Node's built-in [HTTP module](https://nodejs.org/api/http.html#http_http_methods), Express was used to route HTTP req/res and interact with data. The API was designed so users of the myFlix app can make requests to either access or update data on the server about movies or their own user information.
 
-#### API requirements
+### API requirements
 The requirements for the REST API are as follows:
 - Return a list of ALL movies to the user
 - Return data (description, genre, director, image URL) about a single movie by title to the user
@@ -30,16 +30,33 @@ The requirements for the REST API are as follows:
 - Allow users to add/remove a movie to their list of favorites 
 - Allow existing users to deregister 
 
-#### Middleware
-Additionally, Express’s middleware functions were used. These middleware functions include:
+### Middleware
+Additionally, Express’s middleware functions were used. These include:
+- The [body-parser](https://www.npmjs.com/package/body-parser) middleware function, to read from the “body” of HTTP requests in order to get additional information not stored in the request URLs.
 - The [Morgan](http://expressjs.com/en/resources/middleware/morgan.html) middleware library to log all requests in the terminal. 
 - Express’s [express.static](https://expressjs.com/en/starter/static-files.html) built-in middleware function to automatically route all requests for static files to their corresponding files within the [“public”](https://github.com/jenpyle/myFlix-server/tree/master/public) folder on the server
 - An error-handling middleware function was created that logs all application-level errors to the terminal.
+- [CORS](http://expressjs.com/en/resources/middleware/cors.html) middleware that allows control over which domains have access to the API’s server. 
+- Authentication middleware tool for Node.js and Express, [Passport](http://www.passportjs.org/), is used to implement basic HTTP authentication, as well as JWT authentication
 
-#### Testing
-The URL endpoints were tested via the API development tool, [Postman](https://www.postman.com/downloads/).
+### Authentication and Authorization
+The following authentication process is implimented using a tool called **[Passport](http://www.passportjs.org/)**, which is an authentication middleware for Node.js and Express. 
 
-### Documentation
+Initial user authentication is handled by **basic HTTP authentication**. For instance, when registered users make a login API request, they’ll provide a username and password, which will be sent within the header of the HTTP request. Then, as a result of the initial login request and authentication, the application will generate a JWT for the user. This allows subsequent API requests to be authenticated and authorized with **JWT-based authentication**. 
+
+During **basic HTTP authentication**, the client provides a username and password encoded within the header of the HTTP request it sends to the API. The API then reads that username and password to check if the user is registered.
+
+With **JWT authentication**, the client makes a request to the server-side of an application, after which the server generates a web token that represents an encoded version of some claim—for instance, identity, access, and length of time allowed access—and sends this token back to the client. The client stores the JWT via “local storage” in the browser and sends it alongside every subsequent request to the API, where the server then validates it in order to verify the client’s identity and process its requests.
+
+Two authentication strategies: ***“LocalStrategy”*** and ***“JWTStrategy.”***, are defined in [passport.js](https://github.com/jenpyle/myFlix-server/blob/master/passport.js). The first one, called ***“LocalStrategy,”*** defines the basic **HTTP authentication** for login requests. ***LocalStrategy*** takes a username and password from the request body and uses **Mongoose** to check the database for a user with the same username. The next strategy is called ***“JWTStrategy,”*** and it allows the application to authenticate users based on the **JWT** submitted alongside their request. The JWT is called the *“bearer token”*, and is extracted from the header of the HTTP request. The JWT is given an expiration date of seven days. This means that, after seven days, a user’s session will end, and they’ll need to log in again to get a new JWT.
+
+The code in [auth.js](https://github.com/jenpyle/myFlix-server/blob/master/auth.js) contains the login endpoint and actual logic that will authenticate registered users when they log in. auth.js first uses the ***LocalStrategy*** from [passport.js](https://github.com/jenpyle/myFlix-server/blob/master/passport.js) to check that the username and password in the body of the request exist in the database. If they do, the ***generateJWTToken();*** function creates a JWT based on the username and password, which is then sent back as a response to the client. If unsuccessful, the error message returned from ***LocalStrategy*** is sent back to the client.
+
+
+### Testing
+The URL endpoints, HTTP authentication, and JWT-based authentication were tested via the API development tool, [Postman](https://www.postman.com/downloads/).
+
+## Documentation
 A documentation page for the API can be viewed [here](https://jennysflix.herokuapp.com/documentation.html). This documentation provides examples for how to format requests to the API correctly (e.g., what URL endpoints to target, what data to send as parameters, and what data to expect as responses)
 
 ## Business Logic Layer
@@ -48,7 +65,6 @@ The business logic layer contains “logic” for converting code from the data 
 Mongoose revolves around models. Models in Mongoose are written using Node and Express and are kept in a separate [models.js](https://github.com/jenpyle/myFlix-server/blob/master/models.js) file. A model is a class that constructs documents according to a specified schema, specifying what data to store(e.g. Title, Description, Username, etc.) and how to store it(e.g. type: String, required: true, ref: ‘Movie’, etc.) for each document in a collection. This keeps data in the database consistently formatted. Schemas are defined for documents in the “Movies” and “Users” collection. These models are imported into index.js so the API endpoints can make use of them to query the MongoDB database according to the schemas. Mongoose is integrated into the REST API by requiring the module in index.js and using mongoose.connect to connect to the externally hosted database. This allows the REST API to perform CRUD operations on the MongoDB data.
 
 After this implementation, the API is able to receive requests, make the appropriate alterations to the database (using the business logic), and send responses accordingly!
-
 
 ## Database Layer
 The Mongo shell from [MongoDB Database Tools](https://docs.mongodb.com/tools/) was utilized to create a non-relational database by performing [CRUD](https://docs.mongodb.com/manual/crud/) operations with data. The database consists of two collections: Movies and Users, with embedded documents for Director and Genre data. JSON examples of the movies and users collections can be [viewed here](https://github.com/jenpyle/myFlix-server/tree/master/public/example-collections). References are used to store a list of favorite movies for each user. JSON files of the database are imported onto “cluster” and hosted on [MongoDB Atlas](https://www.mongodb.com/cloud/atlas?tck=docs_server)
