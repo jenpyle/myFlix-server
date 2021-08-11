@@ -1,15 +1,55 @@
 # MyFlix-server
+A REST API and architected database built using JavaScript, Node.js, Express, and MongoDB. This is the server-side component of a “movies” web application which includes the [server](#restful-api), [business logic](#business-logic-layer), and [data layers](#database-layer). This web application provides users with access to information about different movies, directors, and genres. Users are able to sign up, update their personal information, and create a list of their favorite movies. 
 
-# Detailed description
-- Layers
-- API
-- requirements
-- Middleware
-- Testing
-- Documentation
-- Database
-- Authentication
+![Image of postman testing](./public/img/all movies.PNG)
 
+### Install Dependencies
+
+```
+npm install
+```
+
+### Run
+
+```
+node index.js
+```
+
+### Deploy
+
+```
+git add .
+git commit -m "commit message"
+git push heroku main
+```
+### To test on Postman
+uncomment index.js:19 and comment out index.js:20
+```
+mongoose.connect('mongodb://localhost:27017/myFlixDB', { useNewUrlParser: true, useUnifiedTopology: true });
+
+//mongoose.connect(process.env.CONNECTION_URI, { useNewUrlParser: true, useUnifiedTopology: true });
+```
+The project should be running on port 8080
+
+**See the [Detailed Project Description](#detailed-project-description) below for more information**
+# Technical Project Requirements
+● The API must be a Node.js and Express application. \
+● The API must use REST architecture, with URL endpoints corresponding to the data operations listed above \
+● The API must use at least three middleware modules, such as the body-parser package for reading data from requests and morgan for logging. \ 
+● The API must use a “package.json” file. \
+● The database must be built using MongoDB. \
+● The business logic must be modeled with Mongoose. \
+● The API must provide movie information in JSON format. \
+● The JavaScript code must be error-free. \
+● The API must be tested in Postman. \
+● The API must include user authentication and authorization code. \
+● The API must include data validation logic. \
+● The API must meet data security regulations. \
+● The API source code must be deployed to a publicly accessible platform like GitHub. \
+● The API must be deployed to Heroku. 
+
+
+# Detailed Project Description
 ## RESTful API
 The API, which is an abstraction of the web server, is what allows clients to access data directly from the web server. The API’s job is to read an HTTP request sent from the client, apply a CRUD operation on the requested resource on the server, and send an HTTP response back to the client.
 
@@ -62,7 +102,6 @@ For an additional security measure password hashing is used to keep password dat
 #### CORS
  [CORS](http://expressjs.com/en/resources/middleware/cors.html) allows control over which domains have access to the API’s server. By controlling who has access to the API, it is better protected from malicious entities. CORS is implemented by way of Express and is currently set to the default allowed origins.
 
-
 ### Testing
 The URL endpoints, HTTP authentication, JWT-based authentication, server-side input validation, and password hashing were tested via the API development tool, [Postman](https://www.postman.com/downloads/).
 
@@ -85,36 +124,3 @@ The Mongo shell from [MongoDB Database Tools](https://docs.mongodb.com/tools/) w
 ## API and Database connection
 The API is hosted online by way of [Heroku](https://dashboard.heroku.com/apps) and the database hosted online by way of [MongoDB Atlas](https://www.mongodb.com/cloud/atlas?tck=docs_server). The connection URI from mongoDB Atlas containing myFlix database credentials is saved in the environment variables on Heroku, so the two sources are able to connect and communicate via the line:`mongoose.connect(process.env.CONNECTION_URI, { useNewUrlParser: true, useUnifiedTopology: true });` in [index.js](https://github.com/jenpyle/myFlix-server/blob/master/index.js).
 
-
-## 1.Project description
-
-A REST API and architected database built using JavaScript, Node.js, Express, and MongoDB. This is the server-side component of a “movies” web application which includes the server, business logic, and data layers. This web application provides users with access to information about different movies, directors, and genres. Users are able to sign up, update their personal information, and create a list of their favorite movies. 
-
-
-### Install Dependencies
-
-```
-npm install
-```
-
-### Run
-
-```
-node index.js
-```
-
-### Deploy
-
-```
-git add .
-git commit -m "commit message"
-git push heroku main
-```
-### To test on Postman
-uncomment index.js:19 and comment out index.js:20
-```
-mongoose.connect('mongodb://localhost:27017/myFlixDB', { useNewUrlParser: true, useUnifiedTopology: true });
-
-//mongoose.connect(process.env.CONNECTION_URI, { useNewUrlParser: true, useUnifiedTopology: true });
-```
-The project should be running on port 8080
