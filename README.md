@@ -86,7 +86,7 @@ Additionally, Express’s middleware functions were used. These include:
 - Authentication middleware tool for Node.js and Express, [Passport](http://www.passportjs.org/), is used to implement basic HTTP authentication, as well as JWT authentication
 
 ### Authentication and Authorization
-The following authentication process is implimented using a tool called **[Passport](http://www.passportjs.org/)**, which is an authentication middleware for Node.js and Express. 
+The following authentication process is implemented using a tool called **[Passport](http://www.passportjs.org/)**, which is an authentication middleware for Node.js and Express. 
 
 Initial user authentication is handled by **basic HTTP authentication**. For instance, when registered users make a login API request, they’ll provide a username and password, which will be sent within the header of the HTTP request. Then, as a result of the initial login request and authentication, the application will generate a JWT for the user. This allows subsequent API requests to be authenticated and authorized with **JWT-based authentication**. 
 
