@@ -66,6 +66,9 @@ For an additional security measure password hashing is used to keep password dat
 ### Testing
 The URL endpoints, HTTP authentication, JWT-based authentication, server-side input validation, and password hashing were tested via the API development tool, [Postman](https://www.postman.com/downloads/).
 
+### Hosting 
+The API is hosted on [Heroku](https://dashboard.heroku.com/apps). The command `git push heroku main` tells Heroku to grab a copy of the committed code and use it to deploy/re-deploy the API on Heroku.
+
 ## Documentation
 A documentation page for the API can be viewed [here](https://jennysflix.herokuapp.com/documentation.html). This documentation provides examples for how to format requests to the API correctly (e.g., what URL endpoints to target, what data to send as parameters, and what data to expect as responses)
 
@@ -79,35 +82,39 @@ After this implementation, the API is able to receive requests, make the appropr
 ## Database Layer
 The Mongo shell from [MongoDB Database Tools](https://docs.mongodb.com/tools/) was utilized to create a non-relational database by performing [CRUD](https://docs.mongodb.com/manual/crud/) operations with data. The database consists of two collections: Movies and Users, with embedded documents for Director and Genre data. JSON examples of the movies and users collections can be [viewed here](https://github.com/jenpyle/myFlix-server/tree/master/public/example-collections). References are used to store a list of favorite movies for each user. JSON files of the database are imported onto “cluster” and hosted on [MongoDB Atlas](https://www.mongodb.com/cloud/atlas?tck=docs_server)
 
-
+## API and Database connection
+The API is hosted online by way of [Heroku](https://dashboard.heroku.com/apps) and the database hosted online by way of [MongoDB Atlas](https://www.mongodb.com/cloud/atlas?tck=docs_server). The connection URI from mongoDB Atlas containing myFlix database credentials is saved in the environment variables on Heroku, so the two sources are able to connect and communicate via the line:`mongoose.connect(process.env.CONNECTION_URI, { useNewUrlParser: true, useUnifiedTopology: true });` in [index.js](https://github.com/jenpyle/myFlix-server/blob/master/index.js).
 
 
 ## 1.Project description
 
 A REST API and architected database built using JavaScript, Node.js, Express, and MongoDB. This is the server-side component of a “movies” web application which includes the server, business logic, and data layers. This web application provides users with access to information about different movies, directors, and genres. Users are able to sign up, update their personal information, and create a list of their favorite movies. 
-## 2. How to get the project running
-To test on postman: uncomment index.js:19 and comment out index.js:20
-
-```mongoose.connect('mongodb://localhost:27017/myFlixDB', { useNewUrlParser: true, useUnifiedTopology: true });```
-
-```// mongoose.connect(process.env.CONNECTION_URI, { useNewUrlParser: true, useUnifiedTopology: true });```
 
 
-Next, in the terminal run ```node index.js```
+### Install Dependencies
 
-The project should be running on port 8080
-
-## 3. _Project dependencies (e.g., JavaScript version, ESLint rules)_
-
-```python
-  "rules": {
-    "prettier/prettier": "warn",
-    "no-unused-vars": "warn",
-    "no-console": "off",
-    "func-names": "off",
-    "no-process-exit": "off",
-    "object-shorthand": "off",
-    "class-methods-use-this": "off",
-    "quotes": ["error", "single"],
-    "no-multiple-empty-lines:": "off"
 ```
+npm install
+```
+
+### Run
+
+```
+node index.js
+```
+
+### Deploy
+
+```
+git add .
+git commit -m "commit message"
+git push heroku main
+```
+### To test on Postman
+uncomment index.js:19 and comment out index.js:20
+```
+mongoose.connect('mongodb://localhost:27017/myFlixDB', { useNewUrlParser: true, useUnifiedTopology: true });
+
+//mongoose.connect(process.env.CONNECTION_URI, { useNewUrlParser: true, useUnifiedTopology: true });
+```
+The project should be running on port 8080
