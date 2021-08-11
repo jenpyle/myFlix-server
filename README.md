@@ -1,7 +1,12 @@
 # MyFlix-server
-A REST API and architected database built using JavaScript, Node.js, Express, and MongoDB. This is the server-side component of a “movies” web application which includes the [server](#restful-api), [business logic](#business-logic-layer), and [data layers](#database-layer). This web application provides users with access to information about different movies, directors, and genres. Users are able to sign up, update their personal information, and create a list of their favorite movies. 
+A REST API and architected database built using JavaScript, Node.js, Express, and MongoDB. This is the server-side component of a “movies” web application which includes the [server](#restful-api), [business logic](#business-logic-layer), and [data layers](#database-layer). 
 
-![Image of postman testing](./public/img/all movies.PNG)
+This web application provides users with access to information about different movies, directors, and genres. Users are able to sign up, update their personal information, and create a list of their favorite movies. 
+
+**See the [Detailed Project Description](#detailed-project-description) below for more information**
+
+![Image of documentation page](public/img/documentation-page.PNG)
+*Image of documentation page*
 
 ### Install Dependencies
 
@@ -31,11 +36,10 @@ mongoose.connect('mongodb://localhost:27017/myFlixDB', { useNewUrlParser: true, 
 ```
 The project should be running on port 8080
 
-**See the [Detailed Project Description](#detailed-project-description) below for more information**
 # Technical Project Requirements
 ● The API must be a Node.js and Express application. \
 ● The API must use REST architecture, with URL endpoints corresponding to the data operations listed above \
-● The API must use at least three middleware modules, such as the body-parser package for reading data from requests and morgan for logging. \ 
+● The API must use at least three middleware modules, such as the body-parser package for reading data from requests and morgan for logging. \
 ● The API must use a “package.json” file. \
 ● The database must be built using MongoDB. \
 ● The business logic must be modeled with Mongoose. \
@@ -104,6 +108,8 @@ For an additional security measure password hashing is used to keep password dat
 
 ### Testing
 The URL endpoints, HTTP authentication, JWT-based authentication, server-side input validation, and password hashing were tested via the API development tool, [Postman](https://www.postman.com/downloads/).
+![Image of postman testing](public/img/PUT%20update%20user%20info.PNG)
+*Image of PUT request to update user info, testing on Postman*
 
 ### Hosting 
 The API is hosted on [Heroku](https://dashboard.heroku.com/apps). The command `git push heroku main` tells Heroku to grab a copy of the committed code and use it to deploy/re-deploy the API on Heroku.
@@ -120,6 +126,8 @@ After this implementation, the API is able to receive requests, make the appropr
 
 ## Database Layer
 The Mongo shell from [MongoDB Database Tools](https://docs.mongodb.com/tools/) was utilized to create a non-relational database by performing [CRUD](https://docs.mongodb.com/manual/crud/) operations with data. The database consists of two collections: Movies and Users, with embedded documents for Director and Genre data. JSON examples of the movies and users collections can be [viewed here](https://github.com/jenpyle/myFlix-server/tree/master/public/example-collections). References are used to store a list of favorite movies for each user. JSON files of the database are imported onto “cluster” and hosted on [MongoDB Atlas](https://www.mongodb.com/cloud/atlas?tck=docs_server)
+![Image of movies collection hosted on MongoDB Atlas](public/img/mongoDb.PNG)
+*Image of movies collection hosted on MongoDB Atlas*
 
 ## API and Database connection
 The API is hosted online by way of [Heroku](https://dashboard.heroku.com/apps) and the database hosted online by way of [MongoDB Atlas](https://www.mongodb.com/cloud/atlas?tck=docs_server). The connection URI from mongoDB Atlas containing myFlix database credentials is saved in the environment variables on Heroku, so the two sources are able to connect and communicate via the line:`mongoose.connect(process.env.CONNECTION_URI, { useNewUrlParser: true, useUnifiedTopology: true });` in [index.js](https://github.com/jenpyle/myFlix-server/blob/master/index.js).
