@@ -3,6 +3,8 @@ A REST API and architected database built using JavaScript, Node.js, Express, an
 
 This web application provides users with access to information about different movies, directors, and genres. Users are able to sign up, update their personal information, and create a list of their favorite movies. 
 
+Client-side application is live at: https://myflix-jenpyle.netlify.app/movies
+
 **See the [Detailed Project Description](#detailed-project-description) below for more information**
 
 ![Image of documentation page](public/img/documentation-page.PNG)
