@@ -30,7 +30,7 @@ git commit -m "commit message"
 git push heroku main
 ```
 ### To test on Postman
-uncomment index.js:19 and comment out index.js:20
+uncomment index.js:29 and comment out index.js:30
 ```
 mongoose.connect('mongodb://localhost:27017/myFlixDB', { useNewUrlParser: true, useUnifiedTopology: true });
 
