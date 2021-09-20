@@ -202,37 +202,36 @@ app.post('/users', [check('Username', 'Username must be at least 5 characters').
 	/**
 	 * Search to see if a user with the requested username already exists
 	 */
-	Users.findOne({ Username: req.body.Username })
-		.then((user) => {
-			if (user) {
-				return res.status(409).send(req.body.Username + ' already exists');
-			} else {
-				/**
-				 * Mongoose create command used on the User model to execute the database operation
-				 * on MongoDB automatically. To insert a record into the “Users” collection
-				 */
-				Users.create({
-					//
-					Username: req.body.Username,
-					Password: hashedPassword,
-					Email: req.body.Email,
-					Birthday: req.body.Birthday,
+	Users.findOne({ Username: req.body.Username }).then((user) => {
+		if (user) {
+			return res.status(409).send(req.body.Username + ' already exists');
+		} else {
+			/**
+			 * Mongoose create command used on the User model to execute the database operation
+			 * on MongoDB automatically. To insert a record into the “Users” collection
+			 */
+			Users.create({
+				//
+				Username: req.body.Username,
+				Password: hashedPassword,
+				Email: req.body.Email,
+				Birthday: req.body.Birthday,
+			})
+				// send a response back to the client that contains both a status code and the document (called “user”) you just created
+				.then((user) => {
+					res.status(201).json(user);
 				})
-					// send a response back to the client that contains both a status code and the document (called “user”) you just created
-					.then((user) => {
-						res.status(201).json(user);
-					})
-					.catch((error) => {
-						console.error(error);
-						res.status(500).send('Error: ' + error);
-					});
-			}
-		})
-		//an important catch-all in case command runs into an error
-		.catch((error) => {
-			console.error(error);
-			res.status(500).send('Error: ' + error);
-		});
+				.catch((error) => {
+					console.error(error);
+					res.status(500).send('Error: ' + error);
+				});
+		}
+	});
+	//an important catch-all in case command runs into an error
+	// .catch((error) => {
+	// 	console.error(error);
+	// 	res.status(500).send('Error: ' + error);
+	// });
 });
 
 /**
